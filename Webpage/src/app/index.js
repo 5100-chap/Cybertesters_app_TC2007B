@@ -1,3 +1,6 @@
+// Integracion Express.js
+const app = require('../../expressApp.js');
+// API
 //TODO: Añadir este js con type="module"
 //Importa los comandos para conectarse a FIrebase
 /*TODO: 
@@ -5,8 +8,13 @@
     querySnapshot.forEach(doc => {
         console.log(doc.data())
     })*/
-import {saveTask} from './API/firebase.js'
 
+
+/*
 window.addEventListener('DOMContentLoaded', async () => {
 
+});*/
+
+app.listen(app.get('port'), () => {
+    console.log("Port initialize on port " + String(app.get('port')));
 });
