@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="Pagina1.css" />
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<body>
+    <div class="rectangle">
+        <input type="button" onclick="location.href='index.html';" value="Log out" class="logout-button" href="index.html" />
+        <div class="usuario">
+            <h3><i class="fas fa-cloud"></i>  Julio Gordillo</h3>
+        </div>
+        <div class="logo">
+            <h3>prep@NET</h3>
+        </div>
+    </div>
+    <br />
+    <div class="generar">
+        <p>GENERAR REPORTE:</p>
+        <input type="text" placeholder="CAMPUS" /><br>
+    </div>
+
+    <div class="tabla">
+
+        <p>CONSULTA DE ALUMNOS</p>
+
+        <table id="alumnos">
+            <colgroup span="4"></colgroup>
+            <tr>
+                <th>CAMPUS</th>
+                <th>PERIODO</th>
+                <th>MATRICULA</th>
+                <th>CORREO</th>
+                <th>TALLER APROBADO</th>
+                <th>ESTATUS</th>
+                <th>TALLER INSCRITO</th>
+            </tr>
+            <tr>
+                <td>Monterrey</td>
+                <td>Segundo</td>
+                <td>A01284202</td>
+                <td>a01284202@tec.mx</td>
+                <td>Si</td>
+                <td>Terminado</td>
+                <td>TC2007B</td>
+            </tr>
+            <tr>
+                <td>Guadalajara</td>
+                <td>Segundo</td>
+                <td>A01284579</td>
+                <td>a01284579@tec.mx</td>
+                <td>No</td>
+                <td>En curso</td>
+                <td>TC2005A</td>
+            </tr>
+            <tr>
+                <td>Cd.Mexico</td>
+                <td>Primero</td>
+                <td>A01284100</td>
+                <td>a01284100@tec.mx</td>
+                <td>No</td>
+                <td>En curso</td>
+                <td>TC2001A</td>
+            </tr>
+            <tr>
+                <td>Tamaulipas</td>
+                <td>Tercer</td>
+                <td>A01284700</td>
+                <td>a01284700@tec.mx</td>
+                <td>Si</td>
+                <td>Terminado</td>
+                <td>TC2005A</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <script src="./dist/app-bundle.js"></script>
+</body>

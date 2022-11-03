@@ -1,0 +1,105 @@
+body {
+    background: linear-gradient(180deg, #0023D6 0%, #000000 100%);
+    margin: 0px;
+    font-family: 'Ubuntu', sans-serif;
+    background-size: 100% 110%;
+    color:white;
+}
+
+
+.rectangle {
+    height: 124px;
+    width: auto;
+    background: linear-gradient(180deg, #0023D6 0%, #000000 100%);
+    color:white;
+}
+
+    .rectangle input[type="button"] {
+        height: 40px;
+        max-width: 100px;
+        width: 100%;
+        position: relative;
+        left: -350px; /* This will move it 20px to the right */
+        top: 30px;
+
+
+        text-align: right;
+        float: right;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        line-height: 3em;
+        background-color: blue;
+        border-color: blue;
+        border-radius: 4px;
+
+        color: white;
+        text-transform: uppercase;
+        font-family: Arial;
+        font-style: normal;
+        line-height: 29px;
+        cursor: pointer;
+    }
+
+.logo {
+    font-size: 20px;
+    position: relative;
+    /* This will move it 20px up */
+    left: 10px; /* This will move it 20px to the right */
+    top: -10px;
+}
+
+.usuario {
+    text-align: right;
+    position: relative;
+    top: 40px;
+    font-weight:bold;
+}
+
+.tabla{
+    color:white;
+    text-align:center;
+    font-weight:bold;
+    font-size:30px;
+    
+}
+
+#alumnos {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    background-color: #3A55E3;
+}
+
+    #alumnos td, #alumnos th {
+        padding: 30px;
+        text-align:center;
+    }
+tbody tr:nth-child(even) {
+    background: #172C9A;
+}
+
+.generar {
+    position: relative;
+    left: 150px; /* This will move it 20px to the right */
+    font-weight:bold;
+}
+
+    .generar input[type="text"] {
+        position: relative;
+        width: 170px;
+        height: 35px;
+        text-align: center;
+        font-family: 'Arial', Arial;
+        color: white;
+        background-color: #3A55E3;
+        border-radius: 10px;
+        border-color: #3A55E3;
+    }
+    ::placeholder{
+        color:white;
+        font-weight:bold;
+        text-align: center;
+        opacity:.8;
+    }
