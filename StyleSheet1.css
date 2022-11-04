@@ -1,0 +1,135 @@
+body {
+    background: linear-gradient(180deg, #0023D6 0%, #000000 100%);
+    margin: 0px;
+    font-family: 'Ubuntu', sans-serif;
+    background-size: 100% 110%;
+}
+
+.logo {
+    color:white;
+    font-size: 20px;
+    position: relative;
+    /* This will move it 20px up */
+    left: 10px; /* This will move it 20px to the right */
+    top:34.5px;
+}
+
+.rectangle {
+    height: 124px;
+    width: auto;
+    background: linear-gradient(180deg, #0023D6 0%, #000000 100%);
+
+}
+
+h1, h2, h3, h4, h5, h6, a {
+    margin: 0;
+    padding: 0;
+}
+
+.login {
+    margin: 0 auto;
+    max-width: 500px;
+    font-size:20px;
+}
+
+.login-header {
+    color: #fff;
+    text-align: left;
+    font-size: 100%;
+    margin-left: 25px;
+    margin: 1em 2em;
+
+    font-family: 'Arial';
+    font-style: normal;
+    
+}
+
+}
+
+.login-form {
+    border: .5px solid #fff;
+    background: #4facff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #000;
+   
+}
+
+    .login-form h3 {
+        text-align: left;
+        margin-left: 30px;
+        color: #fff;
+        font-size: 15px;
+        font-family: Arial;
+        font-style: normal;
+        line-height: 29px;
+    }
+
+.login-form {
+    box-sizing: border-box;
+    padding-top: 15px;
+    padding-bottom: 10%;
+    margin: 5% auto;
+    text-align: center;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+    max-width: 600px;
+    width: 100%;
+    height: 4%;
+    line-height: 3em;
+
+    font-family: 'Ubuntu', sans-serif;
+    color:white;
+    margin: 1em 2em;
+    background-color:transparent;
+
+    border-radius: 2px;
+    border: 1px solid #f2f2f2;
+    outline: none;
+    padding-left: 10px;
+}
+
+.login-form input[type="button"] {
+    height: 40px;
+    max-width: 600px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    line-height: 3em;
+    background-color: blue;
+    border-radius: 4px;
+    margin: 1em 2em;
+    color: white;
+    text-transform: uppercase;
+    font-family: Arial;
+    font-style: normal;
+    line-height: 29px;
+    cursor: pointer;
+}
+
+
+.try-again {
+    color: #f2f2f2;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/*Media Querie*/
+/*@media only screen and (min-width : 150px) and (max-width : 530px) {
+    .login-form h3 {
+        text-align: center;
+        margin: 0;
+    }
+
+    .sign-up, .no-access {
+        margin: 10px 0;
+    }
+
+    .login-button {
+        margin-bottom: 10px;
+    }
+}*/
+
+/*https://cssgradient.io/ */
