@@ -1,0 +1,29 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<link href="./css/StyleSheet.css" rel="stylesheet" />
+<div>	
+    <img src="./images/rectangle33561381-14-200h.png" alt="tiraSuperior" class="tiraSuperior" />
+
+    <span class="textoNombreDeUsuario">
+        <span>Nombre de usuario</span>
+    </span>
+
+    <img src="./images/perfil11381-dvdt-200h.png" alt="imgPerfil" class="imagenDePerfil" />
+	
+    <button class="boton-cerrarsesion">Cerrar sesión</button>
+
+    <img src="./images/prepanetLogo.png" alt="logoPrepanet" class="logoPrepanet" />
+
+    <input type="button" onclick="location.href='Privacy.cshtml';" value="Alumnos" class="ALUMNOS-button" href="Privacy.cshtml" />
+    <input type="button" onclick="location.href='Privacy.cshtml';" value="Cursos" class="CURSOS-button" href="Privacy.cshtml" />
+	
+    <div class="texto">
+        Bienvenido
+        ¿A que tabla desea acceder?
+    </div>
+   
+</div>
