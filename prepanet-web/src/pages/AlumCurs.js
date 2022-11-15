@@ -1,9 +1,9 @@
 import React from 'react';
 
-class AdTa extends React.Component {
+class AlCu extends React.Component {
     render() {
         return <div>
-            <link href="../css/hojaAdmins.css" rel="stylesheet" />
+            <link href="../css/hojaCoordinadores.css" rel="stylesheet" />
             <div>
                 <div>
                     <img
@@ -20,39 +20,22 @@ class AdTa extends React.Component {
                         className="imagenDePerfil"
                     />
                     <button className="boton-cerrarsesion">Cerrar sesión</button>
-                    <input
-                        type="text"
-                        placeholder="Escribe lo que necesites buscar"
-                        className="inputFiltro input"
-                    />
-                    <div className="textoTitulo">Consulta de talleres</div>
+                    <div className="textoTitulo">Talleres que estás cursando</div>
                     <img
                         src="../images/prepanetLogo.png"
                         alt="logoPrepanet"
                         className="logoPrepanet"
                     />
-                    <div className="consultaAlumnosCard">
-                        <div className="dropdown">
-                            <button>Seleccionar campus</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Monterrey</a>
-                                <a href="https://academy.hubspot.com/">Culiacán</a>
-                                <a href="https://www.youtube.com/user/hubspot">CDMX</a>
-                                <a href="https://www.youtube.com/user/hubspot">Guadalajara</a>
-                            </div>
-                        </div>
-                    </div>
-                    <span className="textoDeReporte">
-                        <span>Generar reporte:</span>
-                    </span>
                 </div>
                 <table className="styled-table">
                     <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Campus</th>
-                            <th>Descripción</th>
+                            <th>Código de taller</th>
+                            <th>Nombre de taller</th>
+                            <th>Estatus</th>
+                            <th>Grupo</th>
+                            <th>Matrícula</th>
+                            <th>Periodo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,20 +44,12 @@ class AdTa extends React.Component {
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
-                        </tr>
-                        <tr>
-                            <td>-</td>
-                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                         </tr>
                         <tr>
                             <td>-</td>
                             <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
@@ -85,14 +60,36 @@ class AdTa extends React.Component {
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
                         <tr>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
                         <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
@@ -108,4 +105,4 @@ class AdTa extends React.Component {
     }
 }
 
-export default AdTa;
+export default AlCu;

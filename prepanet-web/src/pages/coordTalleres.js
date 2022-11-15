@@ -1,9 +1,9 @@
 import React from 'react';
 
-class AdTa extends React.Component {
+class CoTa extends React.Component {
     render() {
         return <div>
-            <link href="../css/hojaAdmins.css" rel="stylesheet" />
+            <link href="../css/hojaCoordinadores.css" rel="stylesheet" />
             <div>
                 <div>
                     <img
@@ -20,11 +20,6 @@ class AdTa extends React.Component {
                         className="imagenDePerfil"
                     />
                     <button className="boton-cerrarsesion">Cerrar sesión</button>
-                    <input
-                        type="text"
-                        placeholder="Escribe lo que necesites buscar"
-                        className="inputFiltro input"
-                    />
                     <div className="textoTitulo">Consulta de talleres</div>
                     <img
                         src="../images/prepanetLogo.png"
@@ -32,15 +27,7 @@ class AdTa extends React.Component {
                         className="logoPrepanet"
                     />
                     <div className="consultaAlumnosCard">
-                        <div className="dropdown">
-                            <button>Seleccionar campus</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Monterrey</a>
-                                <a href="https://academy.hubspot.com/">Culiacán</a>
-                                <a href="https://www.youtube.com/user/hubspot">CDMX</a>
-                                <a href="https://www.youtube.com/user/hubspot">Guadalajara</a>
-                            </div>
-                        </div>
+                        <button className="boton-campus">Nombre de campus</button>
                     </div>
                     <span className="textoDeReporte">
                         <span>Generar reporte:</span>
@@ -102,10 +89,9 @@ class AdTa extends React.Component {
                 </table>
             </div>
         </div>
-
             ;
 
     }
 }
 
-export default AdTa;
+export default CoTa;
