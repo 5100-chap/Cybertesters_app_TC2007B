@@ -1,10 +1,10 @@
-import Login from './pages/login'
-import CoAl from './pages/coordAlum';
-import AdAl from './pages/adminAlum';
-import AdTa from './pages/adminTalleres';
-import CoTa from './pages/coordTalleres';
-import AlCu from './pages/AlumCurs';
-import AlIn from './pages/AlumInscr';
+import Login from './pages/Login/login'
+import CoAl from './pages/Coordinadores/coordAlum';
+import AdAl from './pages/Administradores/adminAlum';
+import AdTa from './pages/Administradores/adminTalleres';
+import CoTa from './pages/Coordinadores/coordTalleres';
+import AlCu from './pages/Alumnos/AlumCurs';
+import AlIn from './pages/Alumnos/AlumInscr';
 import Header from './components/Header'
 import Footer from './components/Footer';
 
