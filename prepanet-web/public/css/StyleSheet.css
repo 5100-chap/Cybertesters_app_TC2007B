@@ -128,3 +128,15 @@
     position: absolute;
     border-color: transparent;
 }
+
+.btn {
+    cursor: pointer;
+    top: 525px;
+    left: 511px;
+    width: 627px;
+    height: 76px;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1.5em;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6);
+}
