@@ -1,0 +1,158 @@
+﻿
+
+.tiraSuperior {
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    border-color: transparent;
+}
+
+.textoNombreDeUsuario {
+    top: 33px;
+    color: rgba(255, 255, 255, 1);
+    right: 70px;
+    width: 198px;
+    height: auto;
+    position: absolute;
+    font-size: 20px;
+    align-self: auto;
+    font-style: Regular;
+    text-align: center;
+    font-weight: 400;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+}
+
+.imagenDePerfil {
+    top: 33px;
+    right: 280px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    border-color: transparent;
+}
+
+.boton-cerrarsesion {
+    top: 33px;
+    color: white;
+    height: auto;
+    position: absolute;
+    background: none;
+    border: none;
+    right: 400px;
+}
+
+.boton-cerrarsesion:hover {
+    text-decoration: underline;
+}
+
+.inputFiltro {
+    top: 220px;
+    flex: 1;
+    right: 100px;
+    width: 400px;
+    height: 40px;
+    position: absolute;
+    border: 0;
+    box-shadow: 0 0 15px 5px rgba(0,0,0,.1);
+    border-radius: 10px;
+}
+
+.textoTitulo {
+    text-align: center;
+    position: relative;
+    top: 145px;
+    color: rgba(79, 94, 228, 1);
+    font-size: 48px;
+    align-self: auto;
+    font-style: Bold;
+    text-align: center;
+    font-weight: 700;
+}
+
+.logoPrepanet {
+    top: 33px;
+    left: 36px;
+    width: 140px;
+    height: 30px;
+    position: absolute;
+    border-color: transparent;
+}
+
+.consultaAlumnosCard {
+    top: 180px;
+    left: 56px;
+    width: 249px;
+    height: 52px;
+    display: flex;
+    padding: 28px;
+    position: absolute;
+}
+
+.consultade-alumnos-coordinador-polygon67 {
+    top: 13px;
+    right: 21px;
+    width: 35px;
+    height: 33px;
+    position: absolute;
+}
+
+.textoDeReporte {
+    top: 120px;
+    left: 59px;
+    color: rgba(79, 94, 228, 1);
+    height: auto;
+    position: absolute;
+    font-size: 32px;
+    align-self: auto;
+    font-style: Bold;
+    text-align: center;
+    font-weight: 700;
+    line-height: 40px;
+}
+
+
+.boton-campus {
+    top: auto;
+    margin: auto;
+    z-index: 1;
+    display: inline-block;
+    position: relative;
+}
+
+.styled-table {
+    width: 100%;
+    top: 210px;
+    position: relative;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+    .styled-table thead tr {
+        background-color: #4F5EE4;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #4F5EE4;
+        }

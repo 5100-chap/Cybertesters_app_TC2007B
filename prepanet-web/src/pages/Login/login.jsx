@@ -1,10 +1,36 @@
-import React from 'react';
+import React from "react";
 import { Helmet } from 'react-helmet'
 import config from '../../settings/config.json'
+import {db} from "../../firebase/firebase-config.js";
+import { collection, getDocs} from "firebase/firestore";
 
 const Title = config.Login;
 
 class Login extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            correoInst:"",
+            password : ""
+        };
+        this.usersCollectionRef1 = collection(db, "alumno");
+        this.usersCollectionRef2 = collection(db, "administrador");
+        this.usersCollectionRef3 = collection(db, "coordinador");
+    }
+
+    inputChange=({target}) => {
+        const {name, value} = target
+        this.setState({
+            ...this.state,
+            [name]: value
+        })
+    }
+    onSubmit = async() => {
+        let data = await getDocs(this.usersCollectionRef2);
+        console.log(data);
+    }
+
     render() {
         return (
             <main>
@@ -34,19 +60,24 @@ class Login extends React.Component {
                             <button
                                 type="button"
                                 id="login-btn"
-                                className="btn">
+                                className="btn"
+                                onClick={this.onSubmit}>
                                 Log-in
                             </button>
                         </div>
                         <input
                             type="text"
-                            placeholder="E-mail"
+                            value={this.state.correoInst}
+                            onChange={this.inputChange}
+                            name="correoInst"
                             id="usuario-login"
                             className="iniciodesesn-administradoresy-coordinadores-textinput input"
                         />
                         <input
-                            type="text"
-                            placeholder="Contraseña"
+                            type="Password"
+                            value={this.state.password}
+                            onChange={this.inputChange}
+                            name="password"
                             id="password-login"
                             className="iniciodesesn-administradoresy-coordinadores-textinput1 input"
                         />
@@ -58,9 +89,10 @@ class Login extends React.Component {
                     </div>
                 </div>
             </main>
+
+
         );
 
     }
 }
-
 export default Login;
