@@ -1,8 +1,8 @@
 import React from "react";
 import { Helmet } from 'react-helmet'
 import config from '../../settings/config.json'
-import {db} from "../../firebase/firebase-config.js";
-import { collection, getDocs} from "firebase/firestore";
+import db from "../../firebase/firebase-config.js";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Title = config.Login;
 
@@ -11,24 +11,32 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            correoInst:"",
-            password : ""
+            correoInst: "",
+            password: ""
         };
         this.usersCollectionRef1 = collection(db, "alumno");
         this.usersCollectionRef2 = collection(db, "administrador");
         this.usersCollectionRef3 = collection(db, "coordinador");
     }
 
-    inputChange=({target}) => {
-        const {name, value} = target
+    inputChange = ({ target }) => {
+        const { name, value } = target
         this.setState({
             ...this.state,
             [name]: value
         })
     }
-    onSubmit = async() => {
-        let data = await getDocs(this.usersCollectionRef2);
-        console.log(data);
+    onSubmit = async () => {
+        const q = query(this.usersCollectionRef1, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            console.log("Nel pastel")
+        } else {
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+        }
     }
 
     render() {
