@@ -14,9 +14,9 @@ class Login extends React.Component {
             correoInst: "",
             password: ""
         };
-        this.usersCollectionRef1 = collection(db, "alumno");
-        this.usersCollectionRef2 = collection(db, "administrador");
-        this.usersCollectionRef3 = collection(db, "coordinador");
+        this.usersCollectionRef1 = collection(db, "administrador");
+        this.usersCollectionRef2 = collection(db, "coordinador");
+        this.usersCollectionRef3 = collection(db, "alumno");
     }
 
     inputChange = ({ target }) => {
@@ -27,12 +27,34 @@ class Login extends React.Component {
         })
     }
     onSubmit = async () => {
-        const q = query(this.usersCollectionRef1, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-            console.log("Nel pastel")
-        } else {
-            querySnapshot.forEach((doc) => {
+        const q1 = query(this.usersCollectionRef1, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
+        const q2 = query(this.usersCollectionRef2, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
+        const q3 = query(this.usersCollectionRef3, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
+        const querySnapshot1 = await getDocs(q1);
+        const querySnapshot2 = await getDocs(q2);
+        const querySnapshot3 = await getDocs(q3);
+
+        if (querySnapshot1.empty) {
+            if (querySnapshot2.empty) {
+                if (querySnapshot3.empty) {
+                    alert("Usuario invalido, intentelo nuevamente");
+                }
+                else {
+                    querySnapshot3.forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        console.log(doc.id, " => ", doc.data());
+                    });
+                }
+            }
+            else {
+                querySnapshot2.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                });
+            }
+        }
+        else {
+            querySnapshot1.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 console.log(doc.id, " => ", doc.data());
             });
@@ -97,8 +119,6 @@ class Login extends React.Component {
                     </div>
                 </div>
             </main>
-
-
         );
 
     }
