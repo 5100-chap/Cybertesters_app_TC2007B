@@ -1,0 +1,298 @@
+﻿
+.tiraSuperior {
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    border-color: transparent;
+}
+
+.textoNombreDeUsuario {
+    top: 33px;
+    color: rgba(255, 255, 255, 1);
+    right: 70px;
+    width: 198px;
+    height: auto;
+    position: absolute;
+    font-size: 20px;
+    align-self: auto;
+    font-style: Regular;
+    text-align: center;
+    font-weight: 400;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+}
+
+.imagenDePerfil {
+    top: 33px;
+    right: 280px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    border-color: transparent;
+}
+
+.botones-header{
+    top: 40px;
+    position: relative;
+}
+
+.boton-inscripcion {
+    color: white;
+    height: auto;
+    position: absolute;
+    background: none;
+    border: none;
+    left: 250px;
+    font-weight: bold;
+}
+
+.boton-inscripcion:hover {
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.boton-grupos{
+    color: white;
+    height: auto;
+    position: absolute;
+    background: none;
+    border: none;
+    left: 410px;
+    font-weight: bold;
+}
+
+.boton-grupos:hover {
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.boton-talleres {
+    color: white;
+    height: auto;
+    position: absolute;
+    background: none;
+    border: none;
+    left: 550px;
+    font-weight: bold;
+}
+
+.boton-talleres:hover {
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.boton-cerrarsesion {
+    color: white;
+    height: auto;
+    position: absolute;
+    background-color: transparent;
+
+    border-color: white;
+    border-width: 1px;
+    border-radius: 5px;
+    right: 350px;
+    z-index: 1;
+}
+
+.boton-cerrarsesion:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tabla-editar{
+    top: 250px;
+    right: 50px;
+    position: absolute;
+}
+.tabla-editar thead tr {
+    color: #4F5EE4;
+    text-align: left;
+}
+
+.tabla-editar body tr{
+    text-align: left;
+}
+
+.text-editar{
+    margin: 5px;
+}
+
+.boton-editar {
+    text-transform: none;
+}
+
+.boton-editar:hover {
+    background-color: #ebeeff;
+}
+
+.inputFiltro {
+    top: 280px;
+    flex: 1;
+    left: 50px;
+    width: 300px;
+    height: 25px;
+    position: absolute;
+    z-index: 1;
+    border: 0;
+    box-shadow: 0 0 15px 5px rgba(0,0,0,.1);
+    border-radius: 10px;
+}
+
+.textoTitulo {
+    text-align: center;
+    position: relative;
+    top: 120px;
+    color: rgba(79, 94, 228, 1);
+    font-size: 48px;
+    align-self: auto;
+    font-style: Bold;
+    text-align: center;
+    font-weight: 700;
+}
+
+.logoPrepanet {
+    top: 33px;
+    left: 36px;
+    width: 140px;
+    height: 30px;
+    position: absolute;
+    border-color: transparent;
+}
+
+.consultaAlumnosCard {
+    top: 140px;
+    left: 25px;
+    width: 249px;
+    height: 52px;
+    display: flex;
+    padding: 28px;
+    position: absolute;
+}
+
+.consultade-alumnos-coordinador-polygon67 {
+    top: 13px;
+    right: 21px;
+    width: 35px;
+    height: 33px;
+    position: absolute;
+}
+
+.textoDeReporte {
+    top: 120px;
+    left: 50px;
+    color: rgba(79, 94, 228, 1);
+    height: auto;
+    position: absolute;
+    font-size: 32px;
+    align-self: auto;
+    font-style: Bold;
+    text-align: center;
+    font-weight: 700;
+    line-height: 40px;
+}
+
+.boton-dropdown {
+    height: 25px;
+    border-radius: 5px;
+    background-color: transparent;
+    border-width: 2px;
+    border-color: rgba(79, 94, 228, 1);
+    color: rgba(79, 94, 228, 1);
+    font-weight: bold;
+}
+
+.boton-dropdown:hover {
+    background-color: #e6eaff;
+}
+
+.dropdown-filtro {
+    left: 380px;
+    top: 280px;
+    z-index: 1;
+    display: inline-block;
+    position: relative;
+}
+
+
+.dropdown {
+    left: 0px;
+    top: auto;
+    z-index: 1;
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown-content {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+
+.dropdown-filtro:hover .dropdown-content {
+    z-index: 1;
+    display: block;
+    color: rgba(79, 94, 228, 1);
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.dropdown:hover .dropdown-content {
+    z-index: 1;
+    display: block;
+    color: rgba(79, 94, 228, 1);
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.dropdown-content a {
+    z-index: 1;
+    display: block;
+    color: rgba(79, 94, 228, 1);
+    background-color: rgba(255, 255, 255, 1);
+    padding: 5px;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    z-index: 1;
+    color: #FFFFFF;
+    background-color: rgba(79, 94, 228, 1);
+}
+
+.styled-table {
+    width: 100%;
+    top: 250px;
+    position: relative;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #4F5EE4;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #4F5EE4;
+}

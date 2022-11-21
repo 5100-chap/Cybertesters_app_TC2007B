@@ -37,27 +37,101 @@
     border-color: transparent;
 }
 
-.boton-cerrarsesion {
-    top: 33px;
+.botones-header{
+    top: 40px;
+    position: relative;
+}
+
+.boton-inscripcion {
     color: white;
     height: auto;
     position: absolute;
     background: none;
     border: none;
-    right: 400px;
+    left: 250px;
+    font-weight: bold;
+}
+
+.boton-inscripcion:hover {
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.boton-grupos{
+    color: white;
+    height: auto;
+    position: absolute;
+    background: none;
+    border: none;
+    left: 410px;
+    font-weight: bold;
+}
+
+.boton-grupos:hover {
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.boton-talleres {
+    color: white;
+    height: auto;
+    position: absolute;
+    background: none;
+    border: none;
+    left: 550px;
+    font-weight: bold;
+}
+
+.boton-talleres:hover {
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.boton-cerrarsesion {
+    color: white;
+    height: auto;
+    position: absolute;
+    background-color: transparent;
+
+    border-color: white;
+    border-width: 1px;
+    border-radius: 5px;
+    right: 350px;
+    z-index: 1;
 }
 
 .boton-cerrarsesion:hover {
-    text-decoration:underline;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.editar{
+    top: 280px;
+    flex: 1;
+    right: 120px;
+    position: absolute;
+}
+
+.text-editar{
+    margin: 5px;
+}
+
+.boton-editar {
+    text-transform: none;
+}
+
+.boton-editar:hover {
+    background-color: #ebeeff;
 }
 
 .inputFiltro {
-    top: 220px;
+    top: 280px;
     flex: 1;
-    right: 100px;
-    width: 400px;
-    height: 40px;
+    left: 50px;
+    width: 300px;
+    height: 25px;
     position: absolute;
+    z-index: 1;
     border: 0;
     box-shadow: 0 0 15px 5px rgba(0,0,0,.1);
     border-radius: 10px;
@@ -85,8 +159,8 @@
 }
 
 .consultaAlumnosCard {
-    top: 180px;
-    left: 56px;
+    top: 140px;
+    left: 25px;
     width: 249px;
     height: 52px;
     display: flex;
@@ -104,7 +178,7 @@
 
 .textoDeReporte {
     top: 120px;
-    left: 59px;
+    left: 50px;
     color: rgba(79, 94, 228, 1);
     height: auto;
     position: absolute;
@@ -116,10 +190,32 @@
     line-height: 40px;
 }
 
+.boton-dropdown {
+    height: 25px;
+    border-radius: 5px;
+    background-color: transparent;
+    border-width: 2px;
+    border-color: rgba(79, 94, 228, 1);
+    color: rgba(79, 94, 228, 1);
+    font-weight: bold;
+}
+
+.boton-dropdown:hover {
+    background-color: #e6eaff;
+}
+
+.dropdown-filtro {
+    left: 380px;
+    top: 280px;
+    z-index: 1;
+    display: inline-block;
+    position: relative;
+}
+
 
 .dropdown {
+    left: 0px;
     top: auto;
-    margin: auto;
     z-index: 1;
     display: inline-block;
     position: relative;
@@ -132,6 +228,13 @@
     width: 100%;
     overflow: auto;
     box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+
+.dropdown-filtro:hover .dropdown-content {
+    z-index: 1;
+    display: block;
+    color: rgba(79, 94, 228, 1);
+    background-color: rgba(255, 255, 255, 1);
 }
 
 .dropdown:hover .dropdown-content {
@@ -156,11 +259,9 @@
     background-color: rgba(79, 94, 228, 1);
 }
 
-
-
 .styled-table {
     width: 100%;
-    top: 210px;
+    top: 250px;
     position: relative;
     border-collapse: collapse;
     font-size: 0.9em;
