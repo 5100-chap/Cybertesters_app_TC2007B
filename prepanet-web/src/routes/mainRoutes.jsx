@@ -1,9 +1,10 @@
 import Login from '../pages/Login/login'
-import CoAl from '../pages/Coordinadores/coordAlum';
 import AdAl from '../pages/Administradores/adminAlum';
 import AdTa from '../pages/Administradores/adminTalleres';
+import AdGr from '../pages/Administradores/adminGrupo';
+import CoAl from '../pages/Coordinadores/coordAlum';
 import CoTa from '../pages/Coordinadores/coordTalleres';
-import AlCu from '../pages/Alumnos/AlumCurs';
+import CoGr from '../pages/Coordinadores/coordGrupo';
 import AlIn from '../pages/Alumnos/AlumInscr';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
@@ -18,17 +19,17 @@ const Views = () => {
             <Header />
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route element={ProtectedRoutes}>
-                    <Route path="/coordinador/Alumno" element={<CoAl />} />
-                    <Route path="/coordinador/Talleres" element={<CoTa />} />
-                    <Route path="/administrador/Alumno" element={<AdAl />} />
-                    <Route path="/administrador/Talleres" element={<AdTa />} />
-                    <Route path="/alumno/Cursos" element={<AlCu />} />
-                    <Route path="/alumno/Inscripcion" element={<AlIn />} />
-                </Route>
+                <Route path="/coordinador/Alumnos" element={<CoAl />} />
+                <Route path="/coordinador/Talleres" element={<CoTa />} />
+                <Route path="/coordinador/Grupos" element={<CoGr />} />
+                <Route path="/administrador/Alumnos" element={<AdAl />} />
+                <Route path="/administrador/Talleres" element={<AdTa />} />
+                <Route path="/administrador/Grupos" element={<AdGr />} />
+                <Route path="/alumno/Inscripcion" element={<AlIn />} />
             </Routes>
             <Footer />
         </Router>
+
     );
 }
 

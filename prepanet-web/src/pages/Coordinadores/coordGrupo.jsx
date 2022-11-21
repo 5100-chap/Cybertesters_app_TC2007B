@@ -4,26 +4,17 @@ import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
 import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
-import { Button } from "@mui/material"
+import { Button, darkScrollbar } from "@mui/material"
 
 
 
-export default function CoTa() {
-    const [tallerCodigo, setTallerCodigo] = useState("");
-    const [tallerNombre, setTallerNombre] = useState("");
-    const [tallerDescripcion, setTallerDescripcion] = useState("");
-    const [tallerCampus, setTallerCampus] = useState("");
-    const [taller, setTaller] = useState([]);
-    const [updatedTallerCodigo, setUpdatedTallerCodigo] = useState("");
-    const [updatedTallerNombre, setUpdatedTallerNombre] = useState("");
-    const [updatedTallerDescripcion, setUpdatedTallerDescripcion] = useState("");
-    const [updatedTallerCampus, setUpdatedTallerCampus] = useState("");
-    const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
+export default function CoGr() {
+    const [inscripcion, setInscripcion] = useState([]);
     
     useEffect(() => {
-        const q = query(collection(db, "taller"));
+        const q = query(collection(db, "grupo"));
         onSnapshot(q, (querySnapshot) => {
-            setTaller(
+            setInscripcion(
             querySnapshot.docs.map((doc) => ({
             id: doc.id,
             data: doc.data(),
@@ -32,25 +23,10 @@ export default function CoTa() {
         });
     }, []);
     
-    const updateData = (e) => {
-        e.preventDefault();
-
-        const docRef = doc(db, "taller", dataIdToBeUpdated);
-
-        setDoc(docRef, {
-            nombreTaller: updatedTallerNombre,
-            Description: updatedTallerDescripcion
-        }, { merge: true })
-        .then(() => console.log("Document updated"));
-
-        setUpdatedTallerNombre("");
-        setUpdatedTallerDescripcion("");
-        setDataIdToBeUpdated("");
-    };
 
     return(
         <div>
-            <link href="../css/hojaAdmins.css" rel="stylesheet" />
+            <link href="../css/hojaAdminInscripcion.css" rel="stylesheet" />
             <div>
                 <div>
                     <img
@@ -83,10 +59,12 @@ export default function CoTa() {
                         <div className="dropdown-content">
                             <a href="https://blog.hubspot.com/">Código de taller</a>
                             <a href="https://academy.hubspot.com/">Nombre de taller</a>
+                            <a href="https://blog.hubspot.com/">Campus</a>
+                            <a href="https://academy.hubspot.com/">Periodo</a>
                         </div>
                     </div>
 
-                    <div className="textoTitulo">Consulta de talleres</div>
+                    <div className="textoTitulo">Consulta de grupos</div>
                     <img
                         src="../images/prepanetLogo.png"
                         alt="logoPrepanet"
@@ -104,17 +82,27 @@ export default function CoTa() {
             <table class = "styled-table">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
+                        <th>Código Taller</th>
+                        <th>Nombre de taller</th>
+                        <th>Grupo</th>
+                        <th>Campus</th>
+                        <th>Periodo</th>
+                        <th>Número de alumnos</th>
+                        <th>Inicio de inscripción</th>
+                        <th>Fin de inscripción</th>
                     </tr>
                 </thead>
                 <tbody>
-                {taller?.map(({ id, data }) => (
+                {inscripcion?.map(({ id, data }) => (
                     <tr key={id}>
                         <td>{data.codigoTaller}</td>
-                        <td>{data.nombreTaller}</td>
-                        <td>{data.Description}</td>
+                        <td>{data.nombre}</td>
+                        <td>{data.grupoId}</td>
+                        <td>{data.campus}</td>
+                        <td>{data.periodo}</td>
+                        <td>{data.numAlumnos}</td>
+                        <td>{data.fechaInscripcionIn}</td>
+                        <td>{data.fechaInscripcionFin}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -125,24 +113,9 @@ export default function CoTa() {
 }
 
 /*
-Input original de filtro:
-
-
-/*
-<Popup trigger={<Button variant="outlined"> Editar </Button>} position="left center">
-                                <div>Nombre:</div>
-                                <input
-                                    type="text"
-                                    value={updatedTallerNombre}
-                                    onChange={(e) => setUpdatedTallerNombre(e.target.value)}
-                                />
-
-                                <div>Descripción:</div>
-                                <input
-                                    type="text"
-                                    value= {updatedTallerDescripcion}
-                                    onChange={(e) => setUpdatedTallerDescripcion(e.target.value)}
-                                />
-                                <button onClick={updateData}> Actualizar </button>
-                        </Popup>
+<th>Matrícula</th>
+<th>Nombre</th>
+<th>Campus</th>
+<th>Correo Institucional</th>
+<th>Contraseña</th>
 */

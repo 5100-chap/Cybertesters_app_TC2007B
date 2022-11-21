@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from 'react-helmet'
 import config from '../../settings/config.json'
-import db from "../../firebase/firebase-config.js";
+import { db } from "../../firebase/firebase-config.js";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Title = config.Login;
@@ -27,25 +27,39 @@ class Login extends React.Component {
         })
     }
     onSubmit = async () => {
-        
-        var credentials;
-        //const q1 = query(this.usersCollectionRef1, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
-        //const q2 = query(this.usersCollectionRef2, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
-        const q3 = query(this.usersCollectionRef3, where("correoInstitucional", "==", this.state.correoInst), where("password", "==", this.state.password));
-        //const querySnapshot1 = await getDocs(q1);
-        //const querySnapshot2 = await getDocs(q2);
-        const querySnapshot3 = await getDocs(q3);
 
-        if (querySnapshot3.empty) {
+        const q1 = query(this.usersCollectionRef3);
+        const q2 = query(this.usersCollectionRef3, where("correoInstitucional", "==", this.state.correoInst), where("password", "==", this.state.password));
+        const q3 = query(this.usersCollectionRef3, where("correoInst", "==", this.state.correoInst), where("password", "==", this.state.password));
+        const querySnapshot1 = await getDocs(q1);
+        const querySnapshot2 = await getDocs(q2);
+        const querySnapshot3 = await getDocs(q3);
+        if (querySnapshot1.empty) {
             alert("Usuario invalido")
         } else {
-            querySnapshot3.forEach((doc) => {
+            querySnapshot1.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
-                credentials = (doc.id, " => ", doc.data());
                 console.log(doc.id, " => ", doc.data());
             });
         }
-
+        /*if (querySnapshot2.empty) {
+            if (querySnapshot3.empty) {
+                alert("Usuario invalido")
+            }
+            else {
+                querySnapshot3.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                });
+            }
+        }
+        else {
+            querySnapshot2.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+        }
+*/
     }
 
     render() {

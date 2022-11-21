@@ -1,11 +1,13 @@
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "@firebase/firestore";
+import {getFirestore} from "firebase/firestore"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBaFiRzQnulTdfREqO0WI-2AcdBLw3PpqA",
     authDomain: "prepanet-back-cybertesters.firebaseapp.com",
+    databaseURL: "https://prepanet-back-cybertesters-default-rtdb.firebaseio.com",
     projectId: "prepanet-back-cybertesters",
     storageBucket: "prepanet-back-cybertesters.appspot.com",
     messagingSenderId: "983693589572",
@@ -14,6 +16,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-export default db;
 
+export const db = getFirestore(app);
+
+export default app;
