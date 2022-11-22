@@ -8,6 +8,7 @@ const AlumnRoutes = (props) => {
     let credential = JSON.parse(localStorage.getItem("auth"))
     if (credential.clave === "Alumno"){
       setIsAuth(true);
+      console.log(credential);
     }
   }
   useEffect(init, []);

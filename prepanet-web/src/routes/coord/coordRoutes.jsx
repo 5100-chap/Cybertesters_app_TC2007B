@@ -9,6 +9,7 @@ const CoordRoutes = (props) => {
     let credential = JSON.parse(localStorage.getItem("auth"))
     if (credential.clave === "Coordinador"){
       setIsAuth(true);
+      console.log(credential);
     }
   }
   useEffect(init, []);

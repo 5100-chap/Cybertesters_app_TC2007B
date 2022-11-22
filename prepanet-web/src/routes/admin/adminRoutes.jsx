@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from "react-router-dom";
-
 import React,{ useState, useEffect } from "react";
 
 
@@ -10,6 +9,7 @@ const AdminRoutes = (props) => {
     let credential = JSON.parse(localStorage.getItem("auth"))
     if (credential.clave === "Administrador") {
       setIsAuth(true);
+      console.log(credential);
     }
   }
   useEffect(init, []);
