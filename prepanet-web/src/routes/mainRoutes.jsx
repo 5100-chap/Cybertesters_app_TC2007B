@@ -9,7 +9,9 @@ import AlIn from '../pages/Alumnos/AlumInscr';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 
-import ProtectedRoutes from './protectedRoutes';
+import AdminRoutes from './admin/adminRoutes';
+import CoordRoutes from './coord/coordRoutes';
+import AlumnRoutes from './alumn/coordRoutes';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -18,14 +20,20 @@ const Views = () => {
         <Router>
             <Header />
             <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/coordinador/Alumnos" element={<CoAl />} />
-                <Route path="/coordinador/Talleres" element={<CoTa />} />
-                <Route path="/coordinador/Grupos" element={<CoGr />} />
-                <Route path="/administrador/Alumnos" element={<AdAl />} />
-                <Route path="/administrador/Talleres" element={<AdTa />} />
-                <Route path="/administrador/Grupos" element={<AdGr />} />
-                <Route path="/alumno/Inscripcion" element={<AlIn />} />
+                <Route path="/" element={<Login />} exact />
+                <Route element={<AdminRoutes />}>
+                    <Route path="/administrador/Alumnos" element={<AdAl />} />
+                    <Route path="/administrador/Talleres" element={<AdTa />} />
+                    <Route path="/administrador/Grupos" element={<AdGr />} />
+                </Route>
+                <Route element={<CoordRoutes />}>
+                    <Route path="/coordinador/Alumnos" element={<CoAl />} />
+                    <Route path="/coordinador/Talleres" element={<CoTa />} />
+                    <Route path="/coordinador/Grupos" element={<CoGr />} />
+                </Route>
+                <Route element={<AlumnRoutes />}>
+                    <Route path="/alumno/Inscripcion" element={<AlIn />} />
+                </Route>
             </Routes>
             <Footer />
         </Router>
