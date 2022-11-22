@@ -6,7 +6,8 @@ const CoordRoutes = (props) => {
   const { component: Component, isAuthenticated, ...rest} = props;
   const [isAuth, setIsAuth] = useState(false);
   const init = () => {
-    if (localStorage.getItem("Auth").clave === "Coordinador") {
+    let credential = JSON.parse(localStorage.getItem("auth"))
+    if (credential.clave === "Coordinador"){
       setIsAuth(true);
     }
   }

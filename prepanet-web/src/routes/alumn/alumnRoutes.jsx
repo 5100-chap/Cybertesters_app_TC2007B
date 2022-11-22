@@ -5,7 +5,8 @@ const AlumnRoutes = (props) => {
   const { component: Component, isAuthenticated, ...rest} = props;
   const [isAuth, setIsAuth] = useState(false);
   const init = () => {
-    if (localStorage.getItem("Auth").clave === "Alumno") {
+    let credential = JSON.parse(localStorage.getItem("auth"))
+    if (credential.clave === "Alumno"){
       setIsAuth(true);
     }
   }

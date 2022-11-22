@@ -66,7 +66,8 @@ export default function Login() {
             }
             else {
                 const c = querySnapshot3.docs.map(collectIdsAndDocs);
-                let res = arraytoObject(c);
+                var res = arraytoObject(c);
+                res = JSON.stringify(res);
                 console.log(res);
                 localStorage.setItem("auth", res);
                 navigate("/coordinador/Alumnos");
@@ -74,7 +75,8 @@ export default function Login() {
         }
         else {
             const c = querySnapshot3.docs.map(collectIdsAndDocs);
-            let res = arraytoObject(c);
+            var res = arraytoObject(c);
+            res = JSON.stringify(res);
             console.log(res); 
             localStorage.setItem("auth", res);
             navigate("/coordinador/Alumnos");

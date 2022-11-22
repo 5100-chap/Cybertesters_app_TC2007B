@@ -7,7 +7,8 @@ const AdminRoutes = (props) => {
   const { component: Component, isAuthenticated, ...rest} = props;
   const [isAuth, setIsAuth] = useState(false);
   const init = () => {
-    if (localStorage.getItem("Auth").clave === "Administrador") {
+    let credential = JSON.parse(localStorage.getItem("auth"))
+    if (credential.clave === "Administrador") {
       setIsAuth(true);
     }
   }
