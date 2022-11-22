@@ -1,13 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
+import React, { useState,useEffect } from "react";
 
-import React,{ useState, useEffect } from "react";
-
-
-const AdminRoutes = (props) => {
+const AlumnRoutes = (props) => {
   const { component: Component, isAuthenticated, ...rest} = props;
   const [isAuth, setIsAuth] = useState(false);
   const init = () => {
-    if (localStorage.getItem("Auth").clave === "Administrador") {
+    if (localStorage.getItem("Auth").clave === "Alumno") {
       setIsAuth(true);
     }
   }
@@ -15,4 +13,4 @@ const AdminRoutes = (props) => {
   return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
-export default AdminRoutes;
+export default AlumnRoutes;

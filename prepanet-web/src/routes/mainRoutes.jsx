@@ -11,7 +11,7 @@ import Footer from '../components/Footer';
 
 import AdminRoutes from './admin/adminRoutes';
 import CoordRoutes from './coord/coordRoutes';
-import AlumnRoutes from './alumn/coordRoutes';
+import AlumnRoutes from './alumn/alumnRoutes';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 

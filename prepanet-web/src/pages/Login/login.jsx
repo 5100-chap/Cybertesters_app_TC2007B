@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from 'react-helmet'
 import config from '../../settings/config.json'
 import { db } from "../../firebase/firebase-config.js";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 

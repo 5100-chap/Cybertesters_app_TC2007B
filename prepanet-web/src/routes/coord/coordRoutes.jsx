@@ -1,14 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
+import React, { useState,useEffect } from "react";
 
 
-
-const useAuth = () => {
-  const user = { loggedIn: false };
-  return user && user.loggedIn;
-};
-
-const CoordRoutes = () => {
-  const isAuth = useAuth();
+const CoordRoutes = (props) => {
+  const { component: Component, isAuthenticated, ...rest} = props;
+  const [isAuth, setIsAuth] = useState(false);
+  const init = () => {
+    if (localStorage.getItem("Auth").clave === "Coordinador") {
+      setIsAuth(true);
+    }
+  }
+  useEffect(init, []);
   return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
