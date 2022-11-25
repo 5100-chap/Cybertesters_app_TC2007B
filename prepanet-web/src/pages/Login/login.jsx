@@ -31,7 +31,7 @@ export default function Login() {
     const collectIdsAndDocs = (doc) => {
         return { id: doc.id, ...doc.data() };
     };
-    
+
     const arraytoObject = (c) => {
         var res;
         for (let index = 0; index < c.length; index++) {
@@ -76,10 +76,22 @@ export default function Login() {
         else {
             const c = querySnapshot3.docs.map(collectIdsAndDocs);
             var res = arraytoObject(c);
+            var user
+            if (res.clave === "Alumno") {
+                user = "/alumno/Inscripcion";
+            }
+            if (res.clave === "Coordinador") {
+                user = "/coordinador/Alumnos";
+            }
+            if (res.clave === "Administrador") {
+                user = "/administrador/Alumnos";
+            }
+            else {
+                user = "/"
+            }
             res = JSON.stringify(res);
-            console.log(res); 
             localStorage.setItem("auth", res);
-            navigate("/coordinador/Alumnos");
+            navigate(user);
         }
     }
 

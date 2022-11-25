@@ -4,12 +4,12 @@ import React, { useState,useEffect } from "react";
 
 const CoordRoutes = (props) => {
   const { component: Component, isAuthenticated, ...rest} = props;
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
   const init = () => {
     let credential = JSON.parse(localStorage.getItem("auth"))
-    if (credential.clave === "Coordinador"){
-      setIsAuth(true);
-      console.log(credential);
+    if (!credential.clave === "Coordinador"){
+      setIsAuth(false);
+      return <Navigate to="/" />;
     }
   }
   useEffect(init, []);
