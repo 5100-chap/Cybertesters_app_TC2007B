@@ -3,12 +3,16 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/firebase-config.js";
-import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, doc, where } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@mui/material"
+import { Navigate } from "react-router";
 
 
 
 export default function CoAl() {
+    const navigate = useNavigate();
+    
     const [inscripcion, setInscripcion] = useState([]);
 
     const [updatedMatricula, setUpdatedMatricula] = useState("");
@@ -24,7 +28,9 @@ export default function CoAl() {
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
     
     useEffect(() => {
-        const q = query(collection(db, "inscripcion"));
+        let credential = JSON.parse(localStorage.getItem("auth"))
+        const campus = credential.campus;
+        const q = query(collection(db, "inscripcion"), where("campus", "==", campus));
         onSnapshot(q, (querySnapshot) => {
             setInscripcion(
             querySnapshot.docs.map((doc) => ({
@@ -57,6 +63,71 @@ export default function CoAl() {
         
     };
 
+    function tableToCSV() {
+ 
+        // Variable to store the final csv data
+        var csv_data = [];
+
+        // Get each row data
+        var rows = document.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            // Get each column data
+            var cols = rows[i].querySelectorAll('td,th');
+
+            // Stores each csv row data
+            var csvrow = [];
+            for (var j = 0; j < cols.length; j++) {
+
+                // Get the text data of each cell
+                // of a row and push it to csvrow
+                csvrow.push(cols[j].innerHTML);
+            }
+
+            // Combine each column value with comma
+            csv_data.push(csvrow.join(","));
+        }
+
+        // Combine each row data with new line character
+        csv_data = csv_data.join('\n');
+
+        // Call this function to download csv file 
+        downloadCSVFile(csv_data);
+
+    };
+
+    function downloadCSVFile(csv_data) {
+
+        // Create CSV file object and feed
+        // our csv_data into it
+        const CSVFile = new Blob([csv_data], {
+            type: "text/csv"
+        });
+
+        // Create to temporary link to initiate
+        // download process
+        var temp_link = document.createElement('a');
+
+        // Download csv file
+        temp_link.download = "GfG.csv";
+        var url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+
+        // This link should not be displayed
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+
+        // Automatically click the link to
+        // trigger download
+        temp_link.click();
+        document.body.removeChild(temp_link);
+    };
+    
+    function logOut(){
+        localStorage.setItem("auth", "");
+        navigate("/");
+    }
+
     return(
         <div>
             <link href="../css/hojaAdminInscripcion.css" rel="stylesheet" />
@@ -76,7 +147,9 @@ export default function CoAl() {
                         className="imagenDePerfil"
                     />
                     <div className="botones-header">
-                        <button className="boton-cerrarsesion">Cerrar sesión</button>
+
+                        <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
+
                         <button className="boton-inscripcion">Tabla Inscripción</button>
                         <button className="boton-grupos">Tabla Grupos</button>
                         <button className="boton-talleres">Tabla Talleres</button>
@@ -109,7 +182,7 @@ export default function CoAl() {
                         className="logoPrepanet"
                     />
                     <div className="consultaAlumnosCard">
-                        <button className="boton-dropdown">Nombre de campus</button>
+                    <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
                     </div>
                     <span className="textoDeReporte">
                         <span>Generar reporte:</span>

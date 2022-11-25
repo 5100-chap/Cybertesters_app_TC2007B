@@ -3,12 +3,15 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
+import { useNavigate } from 'react-router-dom';
 import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
 import { Button } from "@mui/material"
 
 
 
 export default function AdTa() {
+    const navigate = useNavigate();
+
     const [tallerCodigo, setTallerCodigo] = useState("");
     const [tallerNombre, setTallerNombre] = useState("");
     const [tallerDescripcion, setTallerDescripcion] = useState("");
@@ -48,25 +51,109 @@ export default function AdTa() {
         setDataIdToBeUpdated("");
     };
 
+    function tableToCSV() {
+ 
+        // Variable to store the final csv data
+        var csv_data = [];
+
+        // Get each row data
+        var rows = document.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            // Get each column data
+            var cols = rows[i].querySelectorAll('td,th');
+
+            // Stores each csv row data
+            var csvrow = [];
+            for (var j = 0; j < cols.length; j++) {
+
+                // Get the text data of each cell
+                // of a row and push it to csvrow
+                csvrow.push(cols[j].innerHTML);
+            }
+
+            // Combine each column value with comma
+            csv_data.push(csvrow.join(","));
+        }
+
+        // Combine each row data with new line character
+        csv_data = csv_data.join('\n');
+
+        // Call this function to download csv file 
+        downloadCSVFile(csv_data);
+
+    };
+
+    function downloadCSVFile(csv_data) {
+
+        // Create CSV file object and feed
+        // our csv_data into it
+        const CSVFile = new Blob([csv_data], {
+            type: "text/csv"
+        });
+
+        // Create to temporary link to initiate
+        // download process
+        var temp_link = document.createElement('a');
+
+        // Download csv file
+        temp_link.download = "GfG.csv";
+        var url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+
+        // This link should not be displayed
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+
+        // Automatically click the link to
+        // trigger download
+        temp_link.click();
+        document.body.removeChild(temp_link);
+    };
+
+    function logOut(){
+        localStorage.setItem("auth", "");
+        navigate("/");
+    }
+
     return(
         <div>
             {dataIdToBeUpdated ? (
-            <div className="editar">
-            <input className= "text-editar"
-                type="text"
-                placeholder="Nombre"
-                value={updatedTallerNombre}
-                onChange={(e) => setUpdatedTallerNombre(e.target.value)}
-            />
-            <input className= "text-editar"
-                type="text"
-                placeholder="Descripción"
-                value={updatedTallerDescripcion}
-                onChange={(e) => setUpdatedTallerDescripcion(e.target.value)}
-            />
-            <Button className="boton-editar" variant="outlined" style={{maxWidth: '100px', maxHeight: '25px', minWidth: '100px', minHeight: '25px'}}
-            onClick={updateData}>Actualizar</Button>
-            </div>
+            <div>
+            <table class = "tabla-editar">
+            <thead>
+                <tr>
+                    <th>Nombre de taller</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                    <input className= "text-editar"
+                        type="text"
+                        placeholder="Nombre"
+                        value={updatedTallerNombre}
+                        onChange={(e) => setUpdatedTallerNombre(e.target.value)}
+                    />
+                    </th>
+                    <th>
+                    <input className= "text-editar"
+                        type="text"
+                        placeholder="Descripción"
+                        value={updatedTallerDescripcion}
+                        onChange={(e) => setUpdatedTallerDescripcion(e.target.value)}
+                    />
+                    </th>
+                    <th>
+                        <Button className="boton-editar" variant="outlined" style={{maxWidth: '100px', maxHeight: '25px', minWidth: '100px', minHeight: '25px'}}
+                            onClick={updateData}>Actualizar
+                        </Button>
+                    </th>
+                </tr>
+            </tbody>
+            </table>
+        </div>
         ) : (<></>)}
 
             <link href="../css/hojaAdmins.css" rel="stylesheet" />
@@ -86,7 +173,7 @@ export default function AdTa() {
                         className="imagenDePerfil"
                     />
                     <div className="botones-header">
-                        <button className="boton-cerrarsesion">Cerrar sesión</button>
+                        <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
                         <button className="boton-inscripcion">Tabla Inscripción</button>
                         <button className="boton-grupos">Tabla Grupos</button>
                         <button className="boton-talleres">Tabla Talleres</button>
@@ -113,13 +200,7 @@ export default function AdTa() {
                     />
                     <div className="consultaAlumnosCard">
                         <div className="dropdown">
-                            <button className="boton-dropdown">Seleccionar campus</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Monterrey</a>
-                                <a href="https://academy.hubspot.com/">Culiacán</a>
-                                <a href="https://www.youtube.com/user/hubspot">CDMX</a>
-                                <a href="https://www.youtube.com/user/hubspot">Guadalajara</a>
-                            </div>
+                            <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
                         </div>
                     </div>
                     <span className="textoDeReporte">

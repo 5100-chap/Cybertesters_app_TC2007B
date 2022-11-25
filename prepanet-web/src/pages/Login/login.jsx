@@ -18,6 +18,7 @@ export default function Login() {
     });
 
     const inputChange = ({ target }) => {
+        //localStorage.setItem("auth", "");
         const { name, value } = target
         setCredentials({
             ...credentials,
@@ -55,35 +56,22 @@ export default function Login() {
 
         e.preventDefault();
         //const q1 = query(usersCollectionRef3);
-        const q2 = query(usersCollectionRef3, where("correoInstitucional", "==", credentials.correoInst), where("password", "==", credentials.password));
-        const q3 = query(usersCollectionRef3, where("correoInst", "==", credentials.correoInst), where("password", "==", credentials.password));
+        const q2 = query(usersCollectionRef3, where("correoInst", "==", credentials.correoInst), where("password", "==", credentials.password));
         //const querySnapshot1 = await getDocs(q1);
         const querySnapshot2 = await getDocs(q2);
-        const querySnapshot3 = await getDocs(q3);
         if (querySnapshot2.empty) {
-            if (querySnapshot3.empty) {
-                alert("Usuario invalido")
-            }
-            else {
-                const c = querySnapshot3.docs.map(collectIdsAndDocs);
-                var res = arraytoObject(c);
-                res = JSON.stringify(res);
-                console.log(res);
-                localStorage.setItem("auth", res);
-                navigate("/coordinador/Alumnos");
-            }
+            alert("Usuario invalido");
         }
         else {
-            const c = querySnapshot3.docs.map(collectIdsAndDocs);
+            const c = querySnapshot2.docs.map(collectIdsAndDocs);
             var res = arraytoObject(c);
-            var user
+            console.log(res.clave);
+            var user;
             if (res.clave === "Alumno") {
                 user = "/alumno/Inscripcion";
-            }
-            if (res.clave === "Coordinador") {
+            } else if (res.clave === "Coordinador") {
                 user = "/coordinador/Alumnos";
-            }
-            if (res.clave === "Administrador") {
+            } else if (res.clave === "Administrador") {
                 user = "/administrador/Alumnos";
             }
             else {

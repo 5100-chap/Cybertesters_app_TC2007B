@@ -6,7 +6,7 @@ const AlumnRoutes = (props) => {
   const [isAuth, setIsAuth] = useState(true);
   const init = () => {
     let credential = JSON.parse(localStorage.getItem("auth"))
-    if (!credential.clave === "Alumno"){
+    if (!(credential.clave === "Alumno")){
       setIsAuth(false);
       return <Navigate to="/" />;
     }

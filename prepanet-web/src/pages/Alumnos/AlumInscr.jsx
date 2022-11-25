@@ -3,12 +3,15 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
-import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
+import { collection, query, onSnapshot, setDoc, doc, where } from "firebase/firestore";
 import { Button } from "@mui/material"
 
 
 
 export default function AlIn() {
+    const navigate = useNavigate();
+    
     const [inscripcion, setInscripcion] = useState([]);
 
     const [updatedCampus, setUpdatedCampus] = useState("");
@@ -19,7 +22,9 @@ export default function AlIn() {
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
     
     useEffect(() => {
-        const q = query(collection(db, "inscripcion"));
+        let credential = JSON.parse(localStorage.getItem("auth"))
+        const matricula = credential.matricula;
+        const q = query(collection(db, "inscripcion"), where("matricula", "==", matricula));
         onSnapshot(q, (querySnapshot) => {
             setInscripcion(
             querySnapshot.docs.map((doc) => ({
@@ -52,6 +57,11 @@ export default function AlIn() {
         
     };
 
+    function logOut(){
+        localStorage.setItem("auth", "");
+        navigate("/");
+    }
+
     return(
         <div>
             <link href="../css/hojaAdminInscripcion.css" rel="stylesheet" />
@@ -71,7 +81,7 @@ export default function AlIn() {
                         className="imagenDePerfil"
                     />
                     <div className="botones-header">
-                        <button className="boton-cerrarsesion">Cerrar sesión</button>
+                        <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
                     </div>
                         
                     <input
@@ -135,6 +145,7 @@ export default function AlIn() {
                 </table>
             </div>
             </div>
+            
     );
 }
 

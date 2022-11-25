@@ -3,38 +3,13 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
+import { useNavigate } from 'react-router-dom';
 import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
 import { Button } from "@mui/material"
 
-
-/*
-            <input className= "text-editar"
-                type="text"
-                placeholder="Campus"
-                value={updatedCampus}
-                onChange={(e) => setUpdatedCampus(e.target.value)}
-            />
-            <input className= "text-editar"
-                type="text"
-                placeholder="Grupo"
-                value={updatedGrupo}
-                onChange={(e) => setUpdatedGrupo(e.target.value)}
-            />
-            <input className= "text-editar"
-                type="text"
-                placeholder="Estatus"
-                value={updatedEstatus}
-                onChange={(e) => setUpdatedEstatus(e.target.value)}
-            />
-            <input className= "text-editar"
-                type="text"
-                placeholder="Calificación"
-                value={updatedCalif}
-                onChange={(e) => setUpdatedCalif(e.target.value)}
-            />
-*/
-
 export default function AdAl() {
+    const navigate = useNavigate();
+
     const [inscripcion, setInscripcion] = useState([]);
 
     const [updatedMatricula, setUpdatedMatricula] = useState("");
@@ -82,6 +57,71 @@ export default function AdAl() {
         setUpdatedCalif("");
         
     };
+
+    function tableToCSV() {
+ 
+        // Variable to store the final csv data
+        var csv_data = [];
+
+        // Get each row data
+        var rows = document.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+
+            // Get each column data
+            var cols = rows[i].querySelectorAll('td,th');
+
+            // Stores each csv row data
+            var csvrow = [];
+            for (var j = 0; j < cols.length; j++) {
+
+                // Get the text data of each cell
+                // of a row and push it to csvrow
+                csvrow.push(cols[j].innerHTML);
+            }
+
+            // Combine each column value with comma
+            csv_data.push(csvrow.join(","));
+        }
+
+        // Combine each row data with new line character
+        csv_data = csv_data.join('\n');
+
+        // Call this function to download csv file 
+        downloadCSVFile(csv_data);
+
+    };
+
+    function downloadCSVFile(csv_data) {
+
+        // Create CSV file object and feed
+        // our csv_data into it
+        const CSVFile = new Blob([csv_data], {
+            type: "text/csv"
+        });
+
+        // Create to temporary link to initiate
+        // download process
+        var temp_link = document.createElement('a');
+
+        // Download csv file
+        temp_link.download = "GfG.csv";
+        var url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+
+        // This link should not be displayed
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+
+        // Automatically click the link to
+        // trigger download
+        temp_link.click();
+        document.body.removeChild(temp_link);
+    };
+
+    function logOut(){
+        localStorage.setItem("auth", "");
+        navigate("/");
+    }
 
     return(
         <div>
@@ -136,8 +176,6 @@ export default function AdAl() {
                         </Button>
                     </th>
                 </tr>
-
-
             </tbody>
             </table>
             <div className="editar">
@@ -162,7 +200,7 @@ export default function AdAl() {
                         className="imagenDePerfil"
                     />
                     <div className="botones-header">
-                        <button className="boton-cerrarsesion">Cerrar sesión</button>
+                        <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
                         <button className="boton-inscripcion">Tabla Inscripción</button>
                         <button className="boton-grupos">Tabla Grupos</button>
                         <button className="boton-talleres">Tabla Talleres</button>
@@ -196,13 +234,7 @@ export default function AdAl() {
                     />
                     <div className="consultaAlumnosCard">
                         <div className="dropdown">
-                            <button className="boton-dropdown">Seleccionar campus</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Monterrey</a>
-                                <a href="https://academy.hubspot.com/">Culiacán</a>
-                                <a href="https://www.youtube.com/user/hubspot">CDMX</a>
-                                <a href="https://www.youtube.com/user/hubspot">Guadalajara</a>
-                            </div>
+                            <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
                         </div>
                     </div>
                     <span className="textoDeReporte">
@@ -247,7 +279,7 @@ export default function AdAl() {
                             setUpdatedEstatus(data.status);
                             setUpdatedCalif(data.calif);
                             
-                        }}> 
+                        }}>
                         Editar 
                         </Button>
                         </td>
@@ -259,11 +291,3 @@ export default function AdAl() {
             </div>
     );
 }
-
-/*
-<th>Matrícula</th>
-<th>Nombre</th>
-<th>Campus</th>
-<th>Correo Institucional</th>
-<th>Contraseña</th>
-*/
