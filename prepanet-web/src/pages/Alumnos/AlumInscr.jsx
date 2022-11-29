@@ -8,10 +8,15 @@ import { collection, query, onSnapshot, setDoc, doc, where } from "firebase/fire
 import { Button } from "@mui/material"
 
 
+import { Helmet } from 'react-helmet';
+import config from '../../settings/config.json'
+const defaultTitle = config.MAIN_TITLE;
 
 export default function AlIn() {
     const navigate = useNavigate();
-    
+
+    const cred2 = JSON.parse(localStorage.getItem("auth"));
+
     const [inscripcion, setInscripcion] = useState([]);
 
     const [updatedCampus, setUpdatedCampus] = useState("");
@@ -20,21 +25,21 @@ export default function AlIn() {
     const [updatedEstatus, setUpdatedEstatus] = useState("");
 
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
-    
+
     useEffect(() => {
         let credential = JSON.parse(localStorage.getItem("auth"))
         const matricula = credential.matricula;
         const q = query(collection(db, "inscripcion"), where("matricula", "==", matricula));
         onSnapshot(q, (querySnapshot) => {
             setInscripcion(
-            querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-            }))
-        );
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
-    
+
     const updateData = (e) => {
         e.preventDefault();
 
@@ -46,7 +51,7 @@ export default function AlIn() {
             status: updatedEstatus,
             grupoID: updatedGrupo
         }, { merge: true })
-        .then(() => console.log("Document updated"));
+            .then(() => console.log("Document updated"));
 
         setDataIdToBeUpdated("");
 
@@ -54,98 +59,105 @@ export default function AlIn() {
         setUpdatedGrupo("");
         setUpdatedEstatus("");
         setUpdatedCalif("");
-        
+
     };
 
-    function logOut(){
+    function logOut() {
         localStorage.setItem("auth", "");
         navigate("/");
     }
 
-    return(
-        <div>
-            <link href="../css/hojaAdminInscripcion.css" rel="stylesheet" />
+    return (
+        <main>
+            <Helmet>
+                <title>
+                    {defaultTitle}
+                </title>
+            </Helmet>
             <div>
+                <link href="../css/hojaAdminInscripcion.css" rel="stylesheet" />
                 <div>
-                    <img
-                        src="../images/rectangle33561381-14-200h.png"
-                        alt="tiraSuperior"
-                        className="tiraSuperior"
-                    />
-                    <span className="textoNombreDeUsuario">
-                        <span>Nombre de usuario</span>
-                    </span>
-                    <img
-                        src="../images/perfil11381-dvdt-200h.png"
-                        alt="imgPerfil"
-                        className="imagenDePerfil"
-                    />
-                    <div className="botones-header">
-                        <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
-                    </div>
-                        
-                    <input
-                        type="text"
-                        placeholder="Escribe lo que necesites buscar"
-                        className="inputFiltro input"
-                    />
-                    <div className="dropdown-filtro">
-                        <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                        <div className="dropdown-content">
-                            <a href="https://blog.hubspot.com/">Matícula</a>
-                            <a href="https://academy.hubspot.com/">Campus</a>
-                            <a href="https://blog.hubspot.com/">Tetramestre</a>
-                            <a href="https://academy.hubspot.com/">Periodo</a>
-                            <a href="https://blog.hubspot.com/">Código de taller</a>
-                            <a href="https://academy.hubspot.com/">Nombre de taller</a>
-                            <a href="https://blog.hubspot.com/">Grupo</a>
-                            <a href="https://blog.hubspot.com/">Estatus</a>
-                            <a href="https://blog.hubspot.com/">Calificación</a>
+                    <div>
+                        <img
+                            src="../images/rectangle33561381-14-200h.png"
+                            alt="tiraSuperior"
+                            className="tiraSuperior"
+                        />
+                        <span className="textoNombreDeUsuario">
+                            <span>{cred2.matricula}</span>
+                        </span>
+                        <img
+                            src="../images/perfil11381-dvdt-200h.png"
+                            alt="imgPerfil"
+                            className="imagenDePerfil"
+                        />
+                        <div className="botones-header">
+                            <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
                         </div>
-                    </div>
 
-                    <div className="textoTitulo">Tus cursos inscritos</div>
-                    <img
-                        src="../images/prepanetLogo.png"
-                        alt="logoPrepanet"
-                        className="logoPrepanet"
-                    />
+                        <input
+                            type="text"
+                            placeholder="Escribe lo que necesites buscar"
+                            className="inputFiltro input"
+                        />
+                        <div className="dropdown-filtro">
+                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
+                            <div className="dropdown-content">
+                                <a href="https://blog.hubspot.com/">Matícula</a>
+                                <a href="https://academy.hubspot.com/">Campus</a>
+                                <a href="https://blog.hubspot.com/">Tetramestre</a>
+                                <a href="https://academy.hubspot.com/">Periodo</a>
+                                <a href="https://blog.hubspot.com/">Código de taller</a>
+                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
+                                <a href="https://blog.hubspot.com/">Grupo</a>
+                                <a href="https://blog.hubspot.com/">Estatus</a>
+                                <a href="https://blog.hubspot.com/">Calificación</a>
+                            </div>
+                        </div>
+
+                        <div className="textoTitulo">Tus cursos inscritos</div>
+                        <img
+                            src="../images/prepanetLogo.png"
+                            alt="logoPrepanet"
+                            className="logoPrepanet"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Campus</th>
+                                <th>Tetramestre</th>
+                                <th>Periodo</th>
+                                <th>Código Taller</th>
+                                <th>Nombre de taller</th>
+                                <th>Grupo</th>
+                                <th>Estatus</th>
+                                <th>Calficación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {inscripcion?.map(({ id, data }) => (
+                                <tr key={id}>
+                                    <td>{data.matricula}</td>
+                                    <td>{data.campus}</td>
+                                    <td>{data.tetramestre}</td>
+                                    <td>{data.periodo}</td>
+                                    <td>{data.codigoTaller}</td>
+                                    <td>{data.tituloTaller}</td>
+                                    <td>{data.grupoID}</td>
+                                    <td>{data.status}</td>
+                                    <td>{data.calif}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div>
-            <table class = "styled-table">
-                <thead>
-                    <tr>
-                        <th>Matrícula</th>
-                        <th>Campus</th>
-                        <th>Tetramestre</th>
-                        <th>Periodo</th>
-                        <th>Código Taller</th>
-                        <th>Nombre de taller</th>
-                        <th>Grupo</th>
-                        <th>Estatus</th>
-                        <th>Calficación</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {inscripcion?.map(({ id, data }) => (
-                    <tr key={id}>
-                        <td>{data.matricula}</td>
-                        <td>{data.campus}</td>
-                        <td>{data.tetramestre}</td>
-                        <td>{data.periodo}</td>
-                        <td>{data.codigoTaller}</td>
-                        <td>{data.tituloTaller}</td>
-                        <td>{data.grupoID}</td>
-                        <td>{data.status}</td>
-                        <td>{data.calif}</td>
-                    </tr>
-                ))}
-                </tbody>
-                </table>
-            </div>
-            </div>
-            
+
+        </main>
     );
 }
 

@@ -7,11 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
 import { Button } from "@mui/material"
 
+import { Helmet } from 'react-helmet';
+import config from '../../settings/config.json'
+const defaultTitle = config.MAIN_TITLE;
 
 
 export default function CoTa() {
     const navigate = useNavigate();
-    
+
+    const cred2 = JSON.parse(localStorage.getItem("auth"));
+
     const [tallerCodigo, setTallerCodigo] = useState("");
     const [tallerNombre, setTallerNombre] = useState("");
     const [tallerDescripcion, setTallerDescripcion] = useState("");
@@ -22,19 +27,19 @@ export default function CoTa() {
     const [updatedTallerDescripcion, setUpdatedTallerDescripcion] = useState("");
     const [updatedTallerCampus, setUpdatedTallerCampus] = useState("");
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
-    
+
     useEffect(() => {
         const q = query(collection(db, "taller"));
         onSnapshot(q, (querySnapshot) => {
             setTaller(
-            querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-            }))
-        );
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
-    
+
     const updateData = (e) => {
         e.preventDefault();
 
@@ -44,7 +49,7 @@ export default function CoTa() {
             nombreTaller: updatedTallerNombre,
             Description: updatedTallerDescripcion
         }, { merge: true })
-        .then(() => console.log("Document updated"));
+            .then(() => console.log("Document updated"));
 
         setUpdatedTallerNombre("");
         setUpdatedTallerDescripcion("");
@@ -52,7 +57,7 @@ export default function CoTa() {
     };
 
     function tableToCSV() {
- 
+
         // Variable to store the final csv data
         var csv_data = [];
 
@@ -84,7 +89,7 @@ export default function CoTa() {
 
     };
 
-    function logOut(){
+    function logOut() {
         localStorage.setItem("auth", "");
         navigate("/");
     }
@@ -116,78 +121,91 @@ export default function CoTa() {
         document.body.removeChild(temp_link);
     };
 
-    return(
-        <div>
-            <link href="../css/hojaAdmins.css" rel="stylesheet" />
+    return (
+        <main>
+            <Helmet>
+                <title>
+                    {defaultTitle}
+                </title>
+            </Helmet>
             <div>
+                <link href="../css/hojaAdmins.css" rel="stylesheet" />
                 <div>
-                    <img
-                        src="../images/rectangle33561381-14-200h.png"
-                        alt="tiraSuperior"
-                        className="tiraSuperior"
-                    />
-                    <span className="textoNombreDeUsuario">
-                        <span>Nombre de usuario</span>
-                    </span>
-                    <img
-                        src="../images/perfil11381-dvdt-200h.png"
-                        alt="imgPerfil"
-                        className="imagenDePerfil"
-                    />
-                    <div className="botones-header">
-                    <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
-                        <button className="boton-inscripcion">Tabla Inscripción</button>
-                        <button className="boton-grupos">Tabla Grupos</button>
-                        <button className="boton-talleres">Tabla Talleres</button>
-                    </div>
-                        
-                    <input
-                        type="text"
-                        placeholder="Escribe lo que necesites buscar"
-                        className="inputFiltro input"
-                    />
-                    <div className="dropdown-filtro">
-                        <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                        <div className="dropdown-content">
-                            <a href="https://blog.hubspot.com/">Código de taller</a>
-                            <a href="https://academy.hubspot.com/">Nombre de taller</a>
+                    <div>
+                        <img
+                            src="../images/rectangle33561381-14-200h.png"
+                            alt="tiraSuperior"
+                            className="tiraSuperior"
+                        />
+                        <span className="textoNombreDeUsuario">
+                            <span>{cred2.matricula}</span>
+                        </span>
+                        <img
+                            src="../images/perfil11381-dvdt-200h.png"
+                            alt="imgPerfil"
+                            className="imagenDePerfil"
+                        />
+                        <div className="botones-header">
+                            <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
+                            <button className="boton-inscripcion" onClick={() => {
+                                navigate("/coordinador/Alumnos");
+                            }}>Tabla Inscripción</button>
+                            <button className="boton-grupos" onClick={() => {
+                                navigate("/coordinador/Grupos");
+                            }}>Tabla Grupos</button>
+                            <button className="boton-talleres" onClick={() => {
+                                navigate("/coordinador/Talleres");
+                            }}>Tabla Talleres</button>
                         </div>
-                    </div>
 
-                    <div className="textoTitulo">Consulta de talleres</div>
-                    <img
-                        src="../images/prepanetLogo.png"
-                        alt="logoPrepanet"
-                        className="logoPrepanet"
-                    />
-                    <div className="consultaAlumnosCard">
-                        <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
+                        <input
+                            type="text"
+                            placeholder="Escribe lo que necesites buscar"
+                            className="inputFiltro input"
+                        />
+                        <div className="dropdown-filtro">
+                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
+                            <div className="dropdown-content">
+                                <a href="https://blog.hubspot.com/">Código de taller</a>
+                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
+                            </div>
+                        </div>
+
+                        <div className="textoTitulo">Consulta de talleres</div>
+                        <img
+                            src="../images/prepanetLogo.png"
+                            alt="logoPrepanet"
+                            className="logoPrepanet"
+                        />
+                        <div className="consultaAlumnosCard">
+                            <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
+                        </div>
+                        <span className="textoDeReporte">
+                            <span>Generar reporte:</span>
+                        </span>
                     </div>
-                    <span className="textoDeReporte">
-                        <span>Generar reporte:</span>
-                    </span>
+                </div>
+                <div>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {taller?.map(({ id, data }) => (
+                                <tr key={id}>
+                                    <td>{data.codigoTaller}</td>
+                                    <td>{data.nombreTaller}</td>
+                                    <td>{data.Description}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div>
-            <table class = "styled-table">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {taller?.map(({ id, data }) => (
-                    <tr key={id}>
-                        <td>{data.codigoTaller}</td>
-                        <td>{data.nombreTaller}</td>
-                        <td>{data.Description}</td>
-                    </tr>
-                ))}
-                </tbody>
-                </table>
-            </div>
-            </div>
+        </main>
     );
 }

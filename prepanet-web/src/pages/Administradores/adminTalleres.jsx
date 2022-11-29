@@ -1,16 +1,24 @@
 import React from "react";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { db } from '../../firebase/firebase-config.js';
-import { useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
+import { json, useNavigate } from 'react-router-dom';
+import { collection, query, onSnapshot, setDoc, addDoc, doc } from "firebase/firestore";
 import { Button } from "@mui/material"
+import { parse } from "papaparse"
+import { async } from "@firebase/util";
+
+import { Helmet } from 'react-helmet';
+import config from '../../settings/config.json'
+const defaultTitle = config.MAIN_TITLE;
 
 
 
 export default function AdTa() {
     const navigate = useNavigate();
+
+    const cred2 = JSON.parse(localStorage.getItem("auth"));
 
     const [tallerCodigo, setTallerCodigo] = useState("");
     const [tallerNombre, setTallerNombre] = useState("");
@@ -22,19 +30,19 @@ export default function AdTa() {
     const [updatedTallerDescripcion, setUpdatedTallerDescripcion] = useState("");
     const [updatedTallerCampus, setUpdatedTallerCampus] = useState("");
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
-    
+
     useEffect(() => {
         const q = query(collection(db, "taller"));
         onSnapshot(q, (querySnapshot) => {
             setTaller(
-            querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-            }))
-        );
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
-    
+
     const updateData = (e) => {
         e.preventDefault();
 
@@ -44,15 +52,43 @@ export default function AdTa() {
             nombreTaller: updatedTallerNombre,
             Description: updatedTallerDescripcion
         }, { merge: true })
-        .then(() => console.log("Document updated"));
+            .then(() => console.log("Document updated"));
 
         setUpdatedTallerNombre("");
         setUpdatedTallerDescripcion("");
         setDataIdToBeUpdated("");
     };
 
+    const insertaCSV = async (csvParsed) => {
+        const datos = csvParsed.data;
+        for (var i = 0; i < datos.length - 1; i++) {
+            console.log(datos[i]);
+            const docRef = await addDoc(collection(db, "inscripcion"), {
+                calif: +datos[i].calificacion,
+                campus: datos[i].campus,
+                status: datos[i].status,
+                grupoID: +datos[i].grupo,
+                tituloTaller: datos[i].tituloTaller,
+                codigoTaller: datos[i].codigoTaller,
+                periodo: +datos[i].periodo,
+                tetramestre: +datos[i].tetramestre,
+                matricula: datos[i].matricula
+            });
+        }
+    };
+
+    const subirCSV = async () => {
+        const file = document.getElementById('archivoCSV').files[0];
+        const textFile = await file.text();
+
+        const result = parse(textFile, {
+            header: true
+        });
+        insertaCSV(result);
+    };
+
     function tableToCSV() {
- 
+
         // Variable to store the final csv data
         var csv_data = [];
 
@@ -111,134 +147,153 @@ export default function AdTa() {
         document.body.removeChild(temp_link);
     };
 
-    function logOut(){
+    function logOut() {
         localStorage.setItem("auth", "");
         navigate("/");
     }
 
-    return(
-        <div>
-            {dataIdToBeUpdated ? (
+    return (
+        <main>
+            <Helmet>
+                <title>
+                    {defaultTitle}
+                </title>
+            </Helmet>
             <div>
-            <table class = "tabla-editar">
-            <thead>
-                <tr>
-                    <th>Nombre de taller</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>
-                    <input className= "text-editar"
-                        type="text"
-                        placeholder="Nombre"
-                        value={updatedTallerNombre}
-                        onChange={(e) => setUpdatedTallerNombre(e.target.value)}
-                    />
-                    </th>
-                    <th>
-                    <input className= "text-editar"
-                        type="text"
-                        placeholder="Descripción"
-                        value={updatedTallerDescripcion}
-                        onChange={(e) => setUpdatedTallerDescripcion(e.target.value)}
-                    />
-                    </th>
-                    <th>
-                        <Button className="boton-editar" variant="outlined" style={{maxWidth: '100px', maxHeight: '25px', minWidth: '100px', minHeight: '25px'}}
-                            onClick={updateData}>Actualizar
-                        </Button>
-                    </th>
-                </tr>
-            </tbody>
-            </table>
-        </div>
-        ) : (<></>)}
+                {dataIdToBeUpdated ? (
+                    <div>
+                        <table class="tabla-editar">
+                            <thead>
+                                <tr>
+                                    <th>Nombre de taller</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <input className="text-editar"
+                                            type="text"
+                                            placeholder="Nombre"
+                                            value={updatedTallerNombre}
+                                            onChange={(e) => setUpdatedTallerNombre(e.target.value)}
+                                        />
+                                    </th>
+                                    <th>
+                                        <input className="text-editar"
+                                            type="text"
+                                            placeholder="Descripción"
+                                            value={updatedTallerDescripcion}
+                                            onChange={(e) => setUpdatedTallerDescripcion(e.target.value)}
+                                        />
+                                    </th>
+                                    <th>
+                                        <Button className="boton-editar" variant="outlined" style={{ maxWidth: '100px', maxHeight: '25px', minWidth: '100px', minHeight: '25px' }}
+                                            onClick={updateData}>Actualizar
+                                        </Button>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (<></>)}
 
-            <link href="../css/hojaAdmins.css" rel="stylesheet" />
-            <div>
+                <link href="../css/hojaAdminInscripcion.css" rel="stylesheet" />
                 <div>
-                    <img
-                        src="../images/rectangle33561381-14-200h.png"
-                        alt="tiraSuperior"
-                        className="tiraSuperior"
-                    />
-                    <span className="textoNombreDeUsuario">
-                        <span>Nombre de usuario</span>
-                    </span>
-                    <img
-                        src="../images/perfil11381-dvdt-200h.png"
-                        alt="imgPerfil"
-                        className="imagenDePerfil"
-                    />
-                    <div className="botones-header">
-                        <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
-                        <button className="boton-inscripcion">Tabla Inscripción</button>
-                        <button className="boton-grupos">Tabla Grupos</button>
-                        <button className="boton-talleres">Tabla Talleres</button>
-                    </div>
-                        
-                    <input
-                        type="text"
-                        placeholder="Escribe lo que necesites buscar"
-                        className="inputFiltro input"
-                    />
-                    <div className="dropdown-filtro">
-                        <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                        <div className="dropdown-content">
-                            <a href="https://blog.hubspot.com/">Código de taller</a>
-                            <a href="https://academy.hubspot.com/">Nombre de taller</a>
+                    <div>
+                        <img
+                            src="../images/rectangle33561381-14-200h.png"
+                            alt="tiraSuperior"
+                            className="tiraSuperior"
+                        />
+                        <span className="textoNombreDeUsuario">
+                            <span>{cred2.matricula}</span>
+                        </span>
+                        <img
+                            src="../images/perfil11381-dvdt-200h.png"
+                            alt="imgPerfil"
+                            className="imagenDePerfil"
+                        />
+                        <div className="botones-header">
+                            <button className="boton-cerrarsesion" onClick={logOut}>Cerrar sesión</button>
+                            <button className="boton-inscripcion" onClick={() => {
+                                navigate("/administrador/Alumnos");
+                            }}>Tabla Inscripción</button>
+                            <button className="boton-grupos" onClick={() => {
+                                navigate("/administrador/Grupos");
+                            }}>Tabla Grupos</button>
+                            <button className="boton-talleres" onClick={() => {
+                                navigate("/administrador/Talleres");
+                            }}>Tabla Talleres</button>
                         </div>
-                    </div>
 
-                    <div className="textoTitulo">Consulta de talleres</div>
-                    <img
-                        src="../images/prepanetLogo.png"
-                        alt="logoPrepanet"
-                        className="logoPrepanet"
-                    />
-                    <div className="consultaAlumnosCard">
-                        <div className="dropdown">
-                            <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
+                        <input
+                            type="text"
+                            placeholder="Escribe lo que necesites buscar"
+                            className="inputFiltro input"
+                        />
+                        <div className="dropdown-filtro">
+                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
+                            <div className="dropdown-content">
+                                <a href="https://blog.hubspot.com/">Código de taller</a>
+                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
+                            </div>
                         </div>
+
+                        <div className="textoTitulo">Consulta de talleres</div>
+                        <img
+                            src="../images/prepanetLogo.png"
+                            alt="logoPrepanet"
+                            className="logoPrepanet"
+                        />
+                        <div className="consultaAlumnosCard">
+                            <div className="dropdown">
+                                <button className="boton-dropdown" onClick={tableToCSV}>Descargar datos de tabla</button>
+                            </div>
+                        </div>
+
+                        <div className="subirArchivoCard">
+                            <input type="file" id="archivoCSV" />
+                        </div>
+                        <button className="boton-subir" onClick={subirCSV}>Subir datos</button>
+
+                        <span className="textoDeReporte">
+                            <span>Generar reporte:</span>
+                        </span>
                     </div>
-                    <span className="textoDeReporte">
-                        <span>Generar reporte:</span>
-                    </span>
+                </div>
+                <div>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>.  .  .  .  .  .</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {taller?.map(({ id, data }) => (
+                                <tr key={id}>
+                                    <td>{data.codigoTaller}</td>
+                                    <td>{data.nombreTaller}</td>
+                                    <td>{data.Description}</td>
+                                    <td>
+                                        <Button variant="outlined" onClick={() => {
+                                            setDataIdToBeUpdated(id);
+                                            setUpdatedTallerNombre(data.nombreTaller);
+                                            setUpdatedTallerDescripcion(data.Description);
+                                        }}>
+                                            Editar
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div>
-            <table class = "styled-table">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>.  .  .  .  .  .</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {taller?.map(({ id, data }) => (
-                    <tr key={id}>
-                        <td>{data.codigoTaller}</td>
-                        <td>{data.nombreTaller}</td>
-                        <td>{data.Description}</td>
-                        <td>
-                        <Button variant="outlined" onClick={() => {
-                            setDataIdToBeUpdated(id);
-                            setUpdatedTallerNombre(data.nombreTaller);
-                            setUpdatedTallerDescripcion(data.Description);
-                        }}> 
-                        Editar 
-                        </Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-                </table>
-            </div>
-            </div>
+        </main>
     );
 }
 

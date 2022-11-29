@@ -65,7 +65,6 @@ export default function Login() {
         else {
             const c = querySnapshot2.docs.map(collectIdsAndDocs);
             var res = arraytoObject(c);
-            console.log(res.clave);
             var user;
             if (res.clave === "Alumno") {
                 user = "/alumno/Inscripcion";

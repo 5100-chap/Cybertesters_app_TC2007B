@@ -6,13 +6,12 @@ const CoordRoutes = (props) => {
   var credential;
 
   const init = () => {
-    credential = JSON.parse(localStorage.getItem("auth"))
+    credential = JSON.parse(localStorage.getItem("auth"));
   }
   try {
     init();
-    console.log(credential);
     if (credential.clave === "Coordinador") {
-      return <Outlet />
+      return <Outlet />;
     }
     else {
       return <Navigate to="/" />;

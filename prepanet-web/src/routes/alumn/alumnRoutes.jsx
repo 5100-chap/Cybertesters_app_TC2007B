@@ -4,13 +4,12 @@ import React from "react";
 const AlumnRoutes = (props) => {
   var credential;
   const init = () => {
-    credential = JSON.parse(localStorage.getItem("auth"))
+    credential = JSON.parse(localStorage.getItem("auth"));
   }
   try {
     init();
-    console.log(credential);
     if (credential.clave === "Alumno") {
-      return <Outlet />
+      return <Outlet />;
     }
     else {
       return <Navigate to="/" />;
