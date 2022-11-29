@@ -63,20 +63,16 @@ export default function AdTa() {
         const datos = csvParsed.data;
         for (var i = 0; i < datos.length - 1; i++) {
             console.log(datos[i]);
-            const docRef = await addDoc(collection(db, "inscripcion"), {
-                calif: +datos[i].calificacion,
-                campus: datos[i].campus,
-                status: datos[i].status,
-                grupoID: +datos[i].grupo,
-                tituloTaller: datos[i].tituloTaller,
+            const docRef = await addDoc(collection(db, "taller"), {
+                Description: datos[i].descripcion,
+                nombreTaller: datos[i].tituloTaller,
                 codigoTaller: datos[i].codigoTaller,
                 periodo: +datos[i].periodo,
-                tetramestre: +datos[i].tetramestre,
-                matricula: datos[i].matricula
+                tetramestre: +datos[i].tetramestre
             });
         }
     };
-
+    
     const subirCSV = async () => {
         const file = document.getElementById('archivoCSV').files[0];
         const textFile = await file.text();

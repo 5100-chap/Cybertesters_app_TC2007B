@@ -161,7 +161,7 @@ export default function AdAl() {
 
     return (
         <main>
-             <Helmet>
+            <Helmet>
                 <title>
                     {defaultTitle}
                 </title>

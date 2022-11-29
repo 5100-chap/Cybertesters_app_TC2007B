@@ -18,7 +18,7 @@ export default function AdGr() {
 
 
     const cred2 = JSON.parse(localStorage.getItem("auth"));
-    
+
     const [inscripcion, setInscripcion] = useState([]);
 
     const [updatedTallerNombre, setUpdatedTallerNombre] = useState("");
@@ -64,21 +64,20 @@ export default function AdGr() {
 
     const insertaCSV = async (csvParsed) => {
         const datos = csvParsed.data;
-        for (var i = 0; i < datos.length - 1; i++) {
+        for(var i = 0; i < datos.length-1; i++){
             console.log(datos[i]);
-            const docRef = await addDoc(collection(db, "inscripcion"), {
-                calif: +datos[i].calificacion,
+            const docRef = await addDoc(collection(db, "grupo"), {
                 campus: datos[i].campus,
-                status: datos[i].status,
-                grupoID: +datos[i].grupo,
-                tituloTaller: datos[i].tituloTaller,
+                grupoId: datos[i].grupo,
+                nombre: datos[i].tituloTaller,
+                numAlumnos: +datos[i].numeroAlumnos,
                 codigoTaller: datos[i].codigoTaller,
                 periodo: +datos[i].periodo,
-                tetramestre: +datos[i].tetramestre,
-                matricula: datos[i].matricula
+                fechaInscripcionIn: datos[i].fechaInscripcionIn,
+                fechaInscripcionFin: datos[i].fechaInscripcionFin
             });
-        }
-    };
+        }
+    };
 
     const subirCSV = async () => {
         const file = document.getElementById('archivoCSV').files[0];

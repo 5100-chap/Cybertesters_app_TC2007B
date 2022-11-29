@@ -173,6 +173,33 @@
     position: absolute;
 }
 
+.subirArchivoCard {
+    top: 130px;
+    right: 56px;
+    width: 249px;
+    height: 52px;
+    display: flex;
+    padding: 28px;
+    position: absolute;
+}
+
+.boton-subir {
+    height: 25px;
+    top: 195px;
+    right: 170px;
+    border-radius: 5px;
+    position: absolute;
+    background-color: transparent;
+    border-width: 2px;
+    border-color: rgba(79, 94, 228, 1);
+    color: rgba(79, 94, 228, 1);
+    font-weight: bold;
+}
+
+.boton-subir:hover {
+    background-color: #e6eaff;
+}
+
 .consultade-alumnos-coordinador-polygon67 {
     top: 13px;
     right: 21px;
