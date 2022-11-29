@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import React, { useState,useEffect } from "react";
+import React from "react";
 
 const AlumnRoutes = (props) => {
   var credential;
