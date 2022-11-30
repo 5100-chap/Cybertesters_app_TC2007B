@@ -99,6 +99,8 @@ export default function AdTa() {
                 Description: datos[i].descripcion,
                 nombreTaller: datos[i].tituloTaller,
                 codigoTaller: datos[i].codigoTaller,
+                periodo: +datos[i].periodo,
+                tetramestre: +datos[i].tetramestre
             });
         }
     };

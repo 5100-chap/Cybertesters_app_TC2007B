@@ -1,4 +1,9 @@
 ﻿
+.pantallaLogIn{
+    left: 75px;
+    position: absolute;
+}
+
 .iniciodesesn-administradoresy-coordinadores-container {
     border-color: var(--dl-color-gray-black);
     border-width: 1px;
@@ -6,7 +11,7 @@
 
 .iniciodesesn-administradoresy-coordinadores-text {
     top: 136px;
-    left: 527px;
+    left: 545px;
     color: rgba(79, 94, 228, 1);
     width: 559px;
     height: auto;
@@ -23,7 +28,7 @@
 
 .iniciodesesn-administradoresy-coordinadores-text2 {
     top: 221px;
-    left: 634px;
+    left: 655px;
     color: rgba(79, 94, 228, 1);
     width: 339px;
     height: auto;
@@ -40,7 +45,7 @@
 
 .iniciodesesn-administradoresy-coordinadores-text4 {
     top: 381px;
-    left: 634px;
+    left: 655px;
     color: rgba(79, 94, 228, 1);
     width: 339px;
     height: auto;
@@ -136,6 +141,7 @@
     width: 627px;
     height: 76px;
     background-color: transparent;
+    border-color: transparent;
     color: #ffffff;
     font-size: 1.5em;
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6);

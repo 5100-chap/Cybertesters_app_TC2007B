@@ -5,6 +5,7 @@ import { db } from "../../firebase/firebase-config.js";
 import { useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
+import { alignProperty } from "@mui/material/styles/cssUtils";
 
 const Title = config.Login;
 
@@ -85,18 +86,23 @@ export default function Login() {
 
     return (
         <main>
+             <link href="./css/StyleSheet.css" rel="stylesheet" />
             <Helmet>
                 <title>
                     {Title}
                 </title>
             </Helmet>
-            <div>
-                <link href="./css/StyleSheet.css" rel="stylesheet" />
-                <img
-                    src="./images/rectangleLogin.png"
-                    alt="Rectangle33561181"
-                    className="iniciodesesn-administradoresy-coordinadores-rectangle3356"
-                />
+            <img
+                src="./images/rectangleLogin.png"
+                alt="Rectangle33561181"
+                className="iniciodesesn-administradoresy-coordinadores-rectangle3356"
+            />
+            <img
+                src="./images/prepanetLogo.png"
+                alt="prepanetremovebgpreview21181"
+                className="iniciodesesn-administradoresy-coordinadores-prepanetremovebgpreview2"
+            />
+            <div className = "pantallaLogIn">
                 <div className="iniciodesesn-administradoresy-coordinadores-container">
                     <span className="iniciodesesn-administradoresy-coordinadores-text">
                         <span>Log In</span>
@@ -113,11 +119,12 @@ export default function Login() {
                             id="login-btn"
                             className="btn"
                             onClick={onSubmit}>
-                            Log-in
+                            Log In
                         </button>
                     </div>
                     <input
                         type="text"
+                        style={{ fontSize: "1.5rem", textAlign: "center", color: "gray"}}
                         value={credentials.correoInst}
                         onChange={inputChange}
                         name="correoInst"
@@ -126,16 +133,12 @@ export default function Login() {
                     />
                     <input
                         type="Password"
+                        style={{ fontSize: "1.5rem", textAlign: "center", color: "gray"}}
                         value={credentials.password}
                         onChange={inputChange}
                         name="password"
                         id="password-login"
                         className="iniciodesesn-administradoresy-coordinadores-textinput1 input"
-                    />
-                    <img
-                        src="./images/prepanetLogo.png"
-                        alt="prepanetremovebgpreview21181"
-                        className="iniciodesesn-administradoresy-coordinadores-prepanetremovebgpreview2"
                     />
                 </div>
             </div>
