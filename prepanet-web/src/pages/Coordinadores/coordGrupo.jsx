@@ -4,7 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, setDoc, doc, where } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt  } from "firebase/firestore";
 import { Button, darkScrollbar } from "@mui/material"
 
 import { Helmet } from 'react-helmet';
@@ -19,6 +19,13 @@ export default function CoGr() {
     const cred2 = JSON.parse(localStorage.getItem("auth"));
 
     const [inscripcion, setInscripcion] = useState([]);
+    const [filterInscripcion, setFilterInscripcion] = useState([]);
+    const [inputFiltro, setinputFiltro] = useState("");
+    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+
+    const keys = ["codigoTaller", "nombre", "grupoId", "campus", "periodo", "numAlumnos", "fechaInscripcionIn", "fechaInscripcionFin"];
+
+
 
     useEffect(() => {
         let credential = JSON.parse(localStorage.getItem("auth"))
@@ -31,9 +38,36 @@ export default function CoGr() {
                     data: doc.data(),
                 }))
             );
+            setFilterInscripcion(
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
 
+    const handleSearch = (e) => {
+        const getSearch = e.target.value;
+        setinputFiltro(getSearch);
+        if (getSearch.length > 0 && filtroDropdown.length > 0) {
+            const inputValue = getSearch.replace(/\W/g, "");
+            let cred= JSON.parse(localStorage.getItem("auth"))
+            const q = query(collection(db, "grupo"), where("campus", "==", cred.campus),
+                orderBy(filtroDropdown), startAt(inputValue),
+                endAt(inputValue + "\uf8ff"));
+            onSnapshot(q, (querySnapshot) => {
+                setInscripcion(
+                    querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                );
+            });
+        } else {
+            setInscripcion(filterInscripcion);
+        }
+    }
 
 
     function tableToCSV() {
@@ -142,17 +176,21 @@ export default function CoGr() {
                             type="text"
                             placeholder="Escribe lo que necesites buscar"
                             className="inputFiltro input"
+                            value={inputFiltro}
+                            onChange={handleSearch}
                         />
                         <div className="dropdown-filtro">
-                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Código de taller</a>
-                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
-                                <a href="https://blog.hubspot.com/">Campus</a>
-                                <a href="https://academy.hubspot.com/">Periodo</a>
-                            </div>
+                            <select className="boton-dropdown"
+                                onChange={(e) => {
+                                    setFiltroDropdown(e.target.value);
+                                }
+                                }>
+                                <option className="dropdown-content" value={keys[0]}>Código de taller</option>
+                                <option className="dropdown-content" value={keys[1]}>Nombre de taller</option>
+                                <option className="dropdown-content" value={keys[3]}>Campus</option>
+                                <option className="dropdown-content" value={keys[5]}>Periodo</option>
+                            </select>
                         </div>
-
                         <div className="textoTitulo">Consulta de grupos</div>
                         <img
                             src="../images/prepanetLogo.png"

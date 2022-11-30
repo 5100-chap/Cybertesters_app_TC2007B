@@ -4,7 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import { useState, useEffect, useRef } from "react";
 import { db } from '../../firebase/firebase-config.js';
 import { json, useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, setDoc, addDoc, doc } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, addDoc, doc, orderBy, startAt, endAt } from "firebase/firestore";
 import { Button } from "@mui/material"
 import { parse } from "papaparse"
 import { async } from "@firebase/util";
@@ -27,6 +27,12 @@ export default function AdGr() {
     const [updatedFechaFin, setUpdatedFechaFin] = useState("");
 
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
+    const [filterInscripcion, setFilterInscripcion] = useState([]);
+    const [inputFiltro, setinputFiltro] = useState("");
+    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+
+    const keys = ["codigoTaller", "nombre", "grupoId", "campus", "periodo", "numAlumnos", "fechaInscripcionIn", "fechaInscripcionFin"];
+
 
     useEffect(() => {
         const q = query(collection(db, "grupo"));
@@ -37,8 +43,35 @@ export default function AdGr() {
                     data: doc.data(),
                 }))
             );
+            setFilterInscripcion(
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
+
+    const handleSearch = (e) => {
+        const getSearch = e.target.value;
+        setinputFiltro(getSearch);
+        if (getSearch.length > 0 && filtroDropdown.length > 0) {
+            const inputValue = getSearch.replace(/\W/g, "");
+            const q = query(collection(db, "grupo"),
+                orderBy(filtroDropdown), startAt(inputValue),
+                endAt(inputValue + "\uf8ff"));
+            onSnapshot(q, (querySnapshot) => {
+                setInscripcion(
+                    querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                );
+            });
+        } else {
+            setInscripcion(filterInscripcion);
+        }
+    }
 
     const updateData = (e) => {
         e.preventDefault();
@@ -64,7 +97,7 @@ export default function AdGr() {
 
     const insertaCSV = async (csvParsed) => {
         const datos = csvParsed.data;
-        for(var i = 0; i < datos.length-1; i++){
+        for (var i = 0; i < datos.length - 1; i++) {
             console.log(datos[i]);
             const docRef = await addDoc(collection(db, "grupo"), {
                 campus: datos[i].campus,
@@ -76,8 +109,8 @@ export default function AdGr() {
                 fechaInscripcionIn: datos[i].fechaInscripcionIn,
                 fechaInscripcionFin: datos[i].fechaInscripcionFin
             });
-        }
-    };
+        }
+    };
 
     const subirCSV = async () => {
         const file = document.getElementById('archivoCSV').files[0];
@@ -153,7 +186,6 @@ export default function AdGr() {
         localStorage.setItem("auth", "");
         navigate("/");
     }
-
     return (
         <main>
             <Helmet>
@@ -164,7 +196,7 @@ export default function AdGr() {
             <div>
                 {dataIdToBeUpdated ? (
                     <div>
-                        <table class="tabla-editar">
+                        <table classname="tabla-editar">
                             <thead>
                                 <tr>
                                     <th>Nombre de taller</th>
@@ -255,15 +287,20 @@ export default function AdGr() {
                             type="text"
                             placeholder="Escribe lo que necesites buscar"
                             className="inputFiltro input"
+                            value={inputFiltro}
+                            onChange={handleSearch}
                         />
                         <div className="dropdown-filtro">
-                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Código de taller</a>
-                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
-                                <a href="https://blog.hubspot.com/">Campus</a>
-                                <a href="https://academy.hubspot.com/">Periodo</a>
-                            </div>
+                            <select className="boton-dropdown"
+                                onChange={(e) => {
+                                    setFiltroDropdown(e.target.value);
+                                }
+                                }>
+                                <option className="dropdown-content" value={keys[0]}>Código de taller</option>
+                                <option className="dropdown-content" value={keys[1]}>Nombre de taller</option>
+                                <option className="dropdown-content" value={keys[3]}>Campus</option>
+                                <option className="dropdown-content" value={keys[5]}>Periodo</option>
+                            </select>
                         </div>
 
                         <div className="textoTitulo">Consulta de grupos</div>

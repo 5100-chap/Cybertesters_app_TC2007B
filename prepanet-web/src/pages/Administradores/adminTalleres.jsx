@@ -4,7 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import { useState, useEffect, useRef } from "react";
 import { db } from '../../firebase/firebase-config.js';
 import { json, useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, setDoc, addDoc, doc } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, addDoc, doc, orderBy, startAt, endAt } from "firebase/firestore";
 import { Button } from "@mui/material"
 import { parse } from "papaparse"
 import { async } from "@firebase/util";
@@ -30,6 +30,11 @@ export default function AdTa() {
     const [updatedTallerDescripcion, setUpdatedTallerDescripcion] = useState("");
     const [updatedTallerCampus, setUpdatedTallerCampus] = useState("");
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
+    const [filterInscripcion, setFilterInscripcion] = useState([]);
+    const [inputFiltro, setinputFiltro] = useState("");
+    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+
+    const keys = ["codigoTaller", "nombreTaller", "Description"];
 
     useEffect(() => {
         const q = query(collection(db, "taller"));
@@ -40,8 +45,35 @@ export default function AdTa() {
                     data: doc.data(),
                 }))
             );
+            setFilterInscripcion(
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
+
+    const handleSearch = (e) => {
+        const getSearch = e.target.value;
+        setinputFiltro(getSearch);
+        if (getSearch.length > 0 && filtroDropdown.length > 0) {
+            const inputValue = getSearch.replace(/\W/g, "");
+            const q = query(collection(db, "taller"),
+                orderBy(filtroDropdown), startAt(inputValue),
+                endAt(inputValue + "\uf8ff"));
+            onSnapshot(q, (querySnapshot) => {
+                setTaller(
+                    querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                );
+            });
+        } else {
+            setTaller(filterInscripcion);
+        }
+    }
 
     const updateData = (e) => {
         e.preventDefault();
@@ -72,7 +104,7 @@ export default function AdTa() {
             });
         }
     };
-    
+
     const subirCSV = async () => {
         const file = document.getElementById('archivoCSV').files[0];
         const textFile = await file.text();
@@ -222,20 +254,23 @@ export default function AdTa() {
                                 navigate("/administrador/Talleres");
                             }}>Tabla Talleres</button>
                         </div>
-
                         <input
                             type="text"
                             placeholder="Escribe lo que necesites buscar"
                             className="inputFiltro input"
+                            value={inputFiltro}
+                            onChange={handleSearch}
                         />
                         <div className="dropdown-filtro">
-                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Código de taller</a>
-                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
-                            </div>
+                            <select className="boton-dropdown"
+                                onChange={(e) => {
+                                    setFiltroDropdown(e.target.value);
+                                }
+                                }>
+                                <option className="dropdown-content" value={keys[0]}>Código de taller</option>
+                                <option className="dropdown-content" value={keys[1]}>Nombre de taller</option>
+                            </select>
                         </div>
-
                         <div className="textoTitulo">Consulta de talleres</div>
                         <img
                             src="../images/prepanetLogo.png"

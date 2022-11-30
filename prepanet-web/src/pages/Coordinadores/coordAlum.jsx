@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/firebase-config.js";
-import { collection, query, onSnapshot, setDoc, doc, where } from "firebase/firestore";
+import {collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@mui/material"
 import { Navigate } from "react-router";
@@ -32,6 +32,13 @@ export default function CoAl() {
 
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
 
+    const [filterInscripcion, setFilterInscripcion] = useState([]);
+    const [inputFiltro, setinputFiltro] = useState("");
+    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+
+    const keys = ["matricula", "campus", "tetramestre", "periodo", "codigoTaller", "tituloTaller", "grupoID", "status", "calif"];
+
+
     useEffect(() => {
         let credential = JSON.parse(localStorage.getItem("auth"))
         const campus = credential.campus;
@@ -43,8 +50,37 @@ export default function CoAl() {
                     data: doc.data(),
                 }))
             );
+            setFilterInscripcion(
+                querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            );
         });
     }, []);
+
+    const handleSearch = (e) => {
+        const getSearch = e.target.value;
+        setinputFiltro(getSearch);
+        let cred = JSON.parse(localStorage.getItem("auth"))
+        if (getSearch.length > 0 && filtroDropdown.length > 0) {
+            const inputValue = getSearch.replace(/\W/g, "");
+            const q = query(collection(db, "inscripcion"),
+                where("campus", "==", cred.campus),
+                orderBy(filtroDropdown), startAt(inputValue),
+                endAt(inputValue + "\uf8ff"));
+            onSnapshot(q, (querySnapshot) => {
+                setInscripcion(
+                    querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                );
+            });
+        } else {
+            setInscripcion(filterInscripcion);
+        }
+    }
 
     const updateData = (e) => {
         e.preventDefault();
@@ -175,20 +211,25 @@ export default function CoAl() {
                             type="text"
                             placeholder="Escribe lo que necesites buscar"
                             className="inputFiltro input"
+                            value={inputFiltro}
+                            onChange={handleSearch}
                         />
                         <div className="dropdown-filtro">
-                            <button className="boton-dropdown">Seleccionar elemento a filtrar</button>
-                            <div className="dropdown-content">
-                                <a href="https://blog.hubspot.com/">Matícula</a>
-                                <a href="https://academy.hubspot.com/">Campus</a>
-                                <a href="https://blog.hubspot.com/">Tetramestre</a>
-                                <a href="https://academy.hubspot.com/">Periodo</a>
-                                <a href="https://blog.hubspot.com/">Código de taller</a>
-                                <a href="https://academy.hubspot.com/">Nombre de taller</a>
-                                <a href="https://blog.hubspot.com/">Grupo</a>
-                                <a href="https://blog.hubspot.com/">Estatus</a>
-                                <a href="https://blog.hubspot.com/">Calificación</a>
-                            </div>
+                            <select className="boton-dropdown"
+                                onChange={(e) => {
+                                    setFiltroDropdown(e.target.value);
+                                }
+                                }>
+                                <option className="dropdown-content" value={keys[0]}>Matícula</option>
+                                <option className="dropdown-content" value={keys[1]}>Campus</option>
+                                <option className="dropdown-content" value={keys[2]}>Tetramestre</option>
+                                <option className="dropdown-content" value={keys[3]}>Periodo</option>
+                                <option className="dropdown-content" value={keys[4]}>Código de taller</option>
+                                <option className="dropdown-content" value={keys[5]}>Nombre de taller</option>
+                                <option className="dropdown-content" value={keys[6]}>Grupo</option>
+                                <option className="dropdown-content" value={keys[7]}>Estatus</option>
+                                <option className="dropdown-content" value={keys[8]}>Calificación</option>
+                            </select>
                         </div>
 
                         <div className="textoTitulo">Consulta de alumnos inscritos</div>
