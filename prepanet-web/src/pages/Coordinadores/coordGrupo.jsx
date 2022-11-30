@@ -4,7 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt  } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt } from "firebase/firestore";
 import { Button, darkScrollbar } from "@mui/material"
 
 import { Helmet } from 'react-helmet';
@@ -21,7 +21,7 @@ export default function CoGr() {
     const [inscripcion, setInscripcion] = useState([]);
     const [filterInscripcion, setFilterInscripcion] = useState([]);
     const [inputFiltro, setinputFiltro] = useState("");
-    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+    const [filtroDropdown, setFiltroDropdown] = useState("codigoTaller");
 
     const keys = ["codigoTaller", "nombre", "grupoId", "campus", "periodo", "numAlumnos", "fechaInscripcionIn", "fechaInscripcionFin"];
 
@@ -50,12 +50,22 @@ export default function CoGr() {
     const handleSearch = (e) => {
         const getSearch = e.target.value;
         setinputFiltro(getSearch);
+        let cred = JSON.parse(localStorage.getItem("auth"))
         if (getSearch.length > 0 && filtroDropdown.length > 0) {
-            const inputValue = getSearch.replace(/\W/g, "");
-            let cred= JSON.parse(localStorage.getItem("auth"))
-            const q = query(collection(db, "grupo"), where("campus", "==", cred.campus),
-                orderBy(filtroDropdown), startAt(inputValue),
-                endAt(inputValue + "\uf8ff"));
+            var inputValue, q;
+            if (filtroDropdown == keys[4]) {
+                inputValue = parseInt(getSearch);
+                q = query(collection(db, "grupo"),
+                    where("campus", "==", cred.campus),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue));
+            } else {
+                inputValue = getSearch.replace(/\W/g, "");
+                q = query(collection(db, "grupo"),
+                    where("campus", "==", cred.campus),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue + "\uf8ff"));
+            }
             onSnapshot(q, (querySnapshot) => {
                 setInscripcion(
                     querySnapshot.docs.map((doc) => ({
@@ -187,8 +197,8 @@ export default function CoGr() {
                                 }>
                                 <option className="dropdown-content" value={keys[0]}>Código de taller</option>
                                 <option className="dropdown-content" value={keys[1]}>Nombre de taller</option>
-                                <option className="dropdown-content" value={keys[3]}>Campus</option>
-                                <option className="dropdown-content" value={keys[5]}>Periodo</option>
+                                <option className="dropdown-content" value={keys[2]}>Grupo</option>
+                                <option className="dropdown-content" value={keys[4]}>Periodo</option>
                             </select>
                         </div>
                         <div className="textoTitulo">Consulta de grupos</div>

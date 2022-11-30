@@ -56,13 +56,22 @@ export default function AlIn() {
         const getSearch = e.target.value;
         setinputFiltro(getSearch);
         let cred = JSON.parse(localStorage.getItem("auth"))
-        const matri = cred.matricula;
         if (getSearch.length > 0 && filtroDropdown.length > 0) {
-            const inputValue = getSearch.replace(/\W/g, "");
-            const q = query(collection(db, "inscripcion"),
-                where("matricula", "==", matri),
+            var inputValue, q;
+            if (filtroDropdown == keys[2] || filtroDropdown == keys[3] || 
+                filtroDropdown == keys[keys.length - 1]){
+                inputValue = parseInt(getSearch);
+                q = query(collection(db, "inscripcion"),
+                where("matricula", "==", cred.matricula),
                 orderBy(filtroDropdown), startAt(inputValue),
-                endAt(inputValue + "\uf8ff"));
+                endAt(inputValue));
+            } else {
+                inputValue = getSearch.replace(/\W/g, "");
+                q = query(collection(db, "inscripcion"),
+                    where("matricula", "==", cred.matricula),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue + "\uf8ff"));
+            }
             onSnapshot(q, (querySnapshot) => {
                 setInscripcion(
                     querySnapshot.docs.map((doc) => ({
@@ -145,7 +154,6 @@ export default function AlIn() {
                                     setFiltroDropdown(e.target.value);
                                 }
                                 }>
-                                <option className="dropdown-content" value={keys[0]}>Matícula</option>
                                 <option className="dropdown-content" value={keys[1]}>Campus</option>
                                 <option className="dropdown-content" value={keys[2]}>Tetramestre</option>
                                 <option className="dropdown-content" value={keys[3]}>Periodo</option>

@@ -29,7 +29,7 @@ export default function AdGr() {
     const [dataIdToBeUpdated, setDataIdToBeUpdated] = useState("");
     const [filterInscripcion, setFilterInscripcion] = useState([]);
     const [inputFiltro, setinputFiltro] = useState("");
-    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+    const [filtroDropdown, setFiltroDropdown] = useState("codigoTaller");
 
     const keys = ["codigoTaller", "nombre", "grupoId", "campus", "periodo", "numAlumnos", "fechaInscripcionIn", "fechaInscripcionFin"];
 
@@ -56,10 +56,18 @@ export default function AdGr() {
         const getSearch = e.target.value;
         setinputFiltro(getSearch);
         if (getSearch.length > 0 && filtroDropdown.length > 0) {
-            const inputValue = getSearch.replace(/\W/g, "");
-            const q = query(collection(db, "grupo"),
-                orderBy(filtroDropdown), startAt(inputValue),
-                endAt(inputValue + "\uf8ff"));
+            var inputValue, q;
+            if (filtroDropdown == keys[4]) {
+                inputValue = parseInt(getSearch);
+                q = query(collection(db, "grupo"),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue));
+            } else {
+                inputValue = getSearch.replace(/\W/g, "");
+                q = query(collection(db, "grupo"),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue + "\uf8ff"));
+            }
             onSnapshot(q, (querySnapshot) => {
                 setInscripcion(
                     querySnapshot.docs.map((doc) => ({
@@ -298,8 +306,9 @@ export default function AdGr() {
                                 }>
                                 <option className="dropdown-content" value={keys[0]}>Código de taller</option>
                                 <option className="dropdown-content" value={keys[1]}>Nombre de taller</option>
+                                <option className="dropdown-content" value={keys[2]}>Grupo</option>
                                 <option className="dropdown-content" value={keys[3]}>Campus</option>
-                                <option className="dropdown-content" value={keys[5]}>Periodo</option>
+                                <option className="dropdown-content" value={keys[4]}>Periodo</option>
                             </select>
                         </div>
 

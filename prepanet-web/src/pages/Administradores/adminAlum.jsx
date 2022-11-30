@@ -55,10 +55,19 @@ export default function AdAl() {
         const getSearch = e.target.value;
         setinputFiltro(getSearch);
         if (getSearch.length > 0 && filtroDropdown.length > 0) {
-            const inputValue = getSearch.replace(/\W/g, "");
-            const q = query(collection(db, "inscripcion"),
+            var inputValue, q;
+            if (filtroDropdown == keys[2] || filtroDropdown == keys[3] || 
+                filtroDropdown == keys[keys.length - 1]){
+                inputValue = parseInt(getSearch);
+                q = query(collection(db, "inscripcion"),
                 orderBy(filtroDropdown), startAt(inputValue),
-                endAt(inputValue + "\uf8ff"));
+                endAt(inputValue));
+            } else {
+                inputValue = getSearch.replace(/\W/g, "");
+                q = query(collection(db, "inscripcion"),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue + "\uf8ff"));
+            }
             onSnapshot(q, (querySnapshot) => {
                 setInscripcion(
                     querySnapshot.docs.map((doc) => ({

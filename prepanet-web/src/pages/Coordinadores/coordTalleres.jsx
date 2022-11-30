@@ -30,7 +30,7 @@ export default function CoTa() {
 
     const [filterInscripcion, setFilterInscripcion] = useState([]);
     const [inputFiltro, setinputFiltro] = useState("");
-    const [filtroDropdown, setFiltroDropdown] = useState("matricula");
+    const [filtroDropdown, setFiltroDropdown] = useState("codigoTaller");
 
     const keys = ["codigoTaller", "nombreTaller", "Description"];
 
