@@ -247,7 +247,7 @@ export default function AdAl() {
                                             type="text"
                                             placeholder="Calificación"
                                             value={updatedCalif}
-                                            onChange={(e) => setUpdatedCalif(e.target.value)}
+                                            onChange={(e) => setUpdatedCalif(+e.target.value)}
                                         />
                                     </th>
                                     <th>

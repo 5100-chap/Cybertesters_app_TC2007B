@@ -203,13 +203,14 @@ export default function AdGr() {
             <div>
                 {dataIdToBeUpdated ? (
                     <div>
-                        <table classname="tabla-editar">
+                        <div className="editar">
+                        <table className="tabla-editar">
                             <thead>
                                 <tr>
-                                    <th>Nombre de taller</th>
-                                    <th>Numero de alumnos</th>
-                                    <th>Fecha de inicio</th>
-                                    <th>Fecha de fin</th>
+                                    <th>Nombre taller</th>
+                                    <th>Numero alumnos</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -227,7 +228,7 @@ export default function AdGr() {
                                             type="text"
                                             placeholder="Numero de alumno"
                                             value={updatedNumAlumnos}
-                                            onChange={(e) => setUpdatedNumAlumnos(e.target.value)}
+                                            onChange={(e) => setUpdatedNumAlumnos(+e.target.value)}
                                         />
                                     </th>
                                     <th>
@@ -256,7 +257,7 @@ export default function AdGr() {
 
                             </tbody>
                         </table>
-                        <div className="editar">
+                        
                         </div>
                     </div>
                 ) : (<></>)}
