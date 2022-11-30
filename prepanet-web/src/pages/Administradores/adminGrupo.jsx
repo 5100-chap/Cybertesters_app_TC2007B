@@ -102,7 +102,6 @@ export default function AdGr() {
         setUpdatedFechaFin("");
 
     };
-
     const insertaCSV = async (csvParsed) => {
         const datos = csvParsed.data;
         for (var i = 0; i < datos.length - 1; i++) {
@@ -144,7 +143,7 @@ export default function AdGr() {
 
             // Stores each csv row data
             var csvrow = [];
-            for (var j = 0; j < cols.length; j++) {
+            for (var j = 0; j < cols.length - 1; j++) {
 
                 // Get the text data of each cell
                 // of a row and push it to csvrow
@@ -176,7 +175,7 @@ export default function AdGr() {
         var temp_link = document.createElement('a');
 
         // Download csv file
-        temp_link.download = "GfG.csv";
+        temp_link.download = "reporteGrupos.csv";
         var url = window.URL.createObjectURL(CSVFile);
         temp_link.href = url;
 

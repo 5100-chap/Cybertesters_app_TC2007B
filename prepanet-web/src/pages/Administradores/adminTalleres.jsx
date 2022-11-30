@@ -99,8 +99,6 @@ export default function AdTa() {
                 Description: datos[i].descripcion,
                 nombreTaller: datos[i].tituloTaller,
                 codigoTaller: datos[i].codigoTaller,
-                periodo: +datos[i].periodo,
-                tetramestre: +datos[i].tetramestre
             });
         }
     };
@@ -129,7 +127,7 @@ export default function AdTa() {
 
             // Stores each csv row data
             var csvrow = [];
-            for (var j = 0; j < cols.length; j++) {
+            for (var j = 0; j < cols.length - 1; j++) {
 
                 // Get the text data of each cell
                 // of a row and push it to csvrow
@@ -161,7 +159,7 @@ export default function AdTa() {
         var temp_link = document.createElement('a');
 
         // Download csv file
-        temp_link.download = "GfG.csv";
+        temp_link.download = "reporteTalleres.csv";
         var url = window.URL.createObjectURL(CSVFile);
         temp_link.href = url;
 
@@ -174,6 +172,7 @@ export default function AdTa() {
         temp_link.click();
         document.body.removeChild(temp_link);
     };
+
 
     function logOut() {
         localStorage.setItem("auth", "");

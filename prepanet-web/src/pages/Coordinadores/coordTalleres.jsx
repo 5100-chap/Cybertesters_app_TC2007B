@@ -4,7 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from '../../firebase/firebase-config.js';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt  } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt } from "firebase/firestore";
 import { Button } from "@mui/material"
 
 import { Helmet } from 'react-helmet';

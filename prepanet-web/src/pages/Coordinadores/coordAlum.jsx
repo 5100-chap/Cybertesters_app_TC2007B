@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/firebase-config.js";
-import {collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt } from "firebase/firestore";
+import { collection, query, onSnapshot, setDoc, doc, where, orderBy, startAt, endAt } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@mui/material"
 import { Navigate } from "react-router";
@@ -65,13 +65,13 @@ export default function CoAl() {
         let cred = JSON.parse(localStorage.getItem("auth"))
         if (getSearch.length > 0 && filtroDropdown.length > 0) {
             var inputValue, q;
-            if (filtroDropdown == keys[2] || filtroDropdown == keys[3] || 
-                filtroDropdown == keys[keys.length - 1]){
+            if (filtroDropdown == keys[2] || filtroDropdown == keys[3] ||
+                filtroDropdown == keys[keys.length - 1]) {
                 inputValue = parseInt(getSearch);
                 q = query(collection(db, "inscripcion"),
-                where("campus", "==", cred.campus),
-                orderBy(filtroDropdown), startAt(inputValue),
-                endAt(inputValue));
+                    where("campus", "==", cred.campus),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue));
             } else {
                 inputValue = getSearch.replace(/\W/g, "");
                 q = query(collection(db, "inscripcion"),

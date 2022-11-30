@@ -58,13 +58,13 @@ export default function AlIn() {
         let cred = JSON.parse(localStorage.getItem("auth"))
         if (getSearch.length > 0 && filtroDropdown.length > 0) {
             var inputValue, q;
-            if (filtroDropdown == keys[2] || filtroDropdown == keys[3] || 
-                filtroDropdown == keys[keys.length - 1]){
+            if (filtroDropdown == keys[2] || filtroDropdown == keys[3] ||
+                filtroDropdown == keys[keys.length - 1]) {
                 inputValue = parseInt(getSearch);
                 q = query(collection(db, "inscripcion"),
-                where("matricula", "==", cred.matricula),
-                orderBy(filtroDropdown), startAt(inputValue),
-                endAt(inputValue));
+                    where("matricula", "==", cred.matricula),
+                    orderBy(filtroDropdown), startAt(inputValue),
+                    endAt(inputValue));
             } else {
                 inputValue = getSearch.replace(/\W/g, "");
                 q = query(collection(db, "inscripcion"),
